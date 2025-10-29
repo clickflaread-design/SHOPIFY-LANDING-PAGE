@@ -1,0 +1,515 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "DIVJOT Pain Relief Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "DIVJOT Wellness",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Color scheme"
+      },
+      {
+        "type": "color",
+        "id": "colors_solid_button_labels",
+        "default": "#FFFFFF",
+        "label": "Solid button label"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent_1",
+        "default": "#28a745",
+        "label": "Accent 1",
+        "info": "Primary brand color"
+      },
+      {
+        "type": "color",
+        "id": "colors_accent_2",
+        "default": "#ff4757",
+        "label": "Accent 2",
+        "info": "Secondary brand color"
+      },
+      {
+        "type": "color",
+        "id": "colors_text",
+        "default": "#121212",
+        "label": "Text"
+      },
+      {
+        "type": "color",
+        "id": "colors_outline_button_labels",
+        "default": "#121212",
+        "label": "Outline button label"
+      },
+      {
+        "type": "color",
+        "id": "colors_background_1",
+        "default": "#FFFFFF",
+        "label": "Background 1"
+      },
+      {
+        "type": "color",
+        "id": "colors_background_2",
+        "default": "#F3F3F3",
+        "label": "Background 2"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "default": "assistant_n4",
+        "label": "Font",
+        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)"
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "min": 100,
+        "max": 150,
+        "step": 5,
+        "unit": "%",
+        "label": "Heading scale",
+        "default": 100
+      },
+      {
+        "type": "header",
+        "content": "Body text"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "assistant_n4",
+        "label": "Font",
+        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)"
+      },
+      {
+        "type": "range",
+        "id": "body_scale",
+        "min": 100,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "label": "Body scale",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 1000,
+        "max": 1600,
+        "step": 100,
+        "default": 1200,
+        "unit": "px",
+        "label": "Page width"
+      },
+      {
+        "type": "range",
+        "id": "spacing_sections",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Spacing between sections",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Button style"
+      },
+      {
+        "type": "range",
+        "id": "buttons_border_thickness",
+        "min": 0,
+        "max": 5,
+        "step": 1,
+        "unit": "px",
+        "label": "Border thickness",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "buttons_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Border opacity",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "buttons_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "Corner radius",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Shadow opacity",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_horizontal_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "Horizontal shadow offset",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_vertical_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "Vertical shadow offset",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_blur",
+        "min": 0,
+        "max": 20,
+        "step": 5,
+        "unit": "px",
+        "label": "Shadow blur",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "name": "Form inputs",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Input style"
+      },
+      {
+        "type": "range",
+        "id": "inputs_border_thickness",
+        "min": 0,
+        "max": 5,
+        "step": 1,
+        "unit": "px",
+        "label": "Border thickness",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "inputs_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Border opacity",
+        "default": 55
+      },
+      {
+        "type": "range",
+        "id": "inputs_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "Corner radius",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "Shadow opacity",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_horizontal_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "Horizontal shadow offset",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_vertical_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "Vertical shadow offset",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_blur",
+        "min": 0,
+        "max": 20,
+        "step": 5,
+        "unit": "px",
+        "label": "Shadow blur",
+        "default": 5
+      }
+    ]
+  },
+  {
+    "name": "Product Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product Information"
+      },
+      {
+        "type": "text",
+        "id": "product_name",
+        "label": "Product Name",
+        "default": "DIVJOT'S Pain Relief"
+      },
+      {
+        "type": "number",
+        "id": "product_price",
+        "label": "Product Price (₹)",
+        "default": 3150
+      },
+      {
+        "type": "text",
+        "id": "product_description",
+        "label": "Product Description",
+        "default": "100% आयुर्वेदिक जोड़ों के दर्द की दवा"
+      },
+      {
+        "type": "image_picker",
+        "id": "product_image",
+        "label": "Product Image"
+      }
+    ]
+  },
+  {
+    "name": "CRM Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "CRM Integration"
+      },
+      {
+        "type": "url",
+        "id": "crm_api_url",
+        "label": "CRM API URL",
+        "default": "https://projects.erpthemes.com/api/dynamic/addRecordsDynamic?tempID=72&tempName=website_api_"
+      },
+      {
+        "type": "textarea",
+        "id": "crm_auth_token",
+        "label": "CRM Authorization Token",
+        "info": "Enter your CRM API authorization token"
+      },
+      {
+        "type": "text",
+        "id": "crm_domain",
+        "label": "Domain",
+        "default": "jointrelief.co.in"
+      }
+    ]
+  },
+  {
+    "name": "Announcement Bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_bar_enabled",
+        "label": "Enable announcement bar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement text",
+        "default": "जल्दी करें सीमित समय का ऑफर - 70% छूट केवल आज!"
+      },
+      {
+        "type": "color",
+        "id": "announcement_color_bg",
+        "label": "Background color",
+        "default": "#ff4757"
+      },
+      {
+        "type": "color",
+        "id": "announcement_color_text",
+        "label": "Text color",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Timer Settings",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Countdown Timer"
+      },
+      {
+        "type": "number",
+        "id": "timer_hours",
+        "label": "Timer Hours",
+        "default": 2
+      },
+      {
+        "type": "number",
+        "id": "timer_minutes",
+        "label": "Timer Minutes",
+        "default": 47
+      },
+      {
+        "type": "checkbox",
+        "id": "timer_auto_reset",
+        "label": "Auto reset timer",
+        "default": true,
+        "info": "Timer will reset automatically when it reaches zero"
+      }
+    ]
+  },
+  {
+    "name": "Analytics & Tracking",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Facebook Pixel"
+      },
+      {
+        "type": "text",
+        "id": "facebook_pixel_id",
+        "label": "Facebook Pixel ID",
+        "info": "Enter your Facebook Pixel ID for conversion tracking"
+      },
+      {
+        "type": "header",
+        "content": "Google Analytics"
+      },
+      {
+        "type": "text",
+        "id": "google_analytics_id",
+        "label": "Google Analytics 4 ID",
+        "info": "Enter your GA4 Measurement ID (G-XXXXXXXXXX)"
+      },
+      {
+        "type": "text",
+        "id": "google_tag_manager_id",
+        "label": "Google Tag Manager ID",
+        "info": "Enter your GTM Container ID (GTM-XXXXXXX)"
+      },
+      {
+        "type": "header",
+        "content": "Google Ads"
+      },
+      {
+        "type": "text",
+        "id": "google_ads_conversion_id",
+        "label": "Google Ads Conversion ID",
+        "info": "Enter your Google Ads Conversion ID"
+      },
+      {
+        "type": "text",
+        "id": "google_ads_conversion_label",
+        "label": "Google Ads Conversion Label",
+        "info": "Enter your Google Ads Conversion Label"
+      }
+    ]
+  },
+  {
+    "name": "WhatsApp Integration",
+    "settings": [
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "WhatsApp Number",
+        "default": "919876543210",
+        "info": "Enter WhatsApp number with country code (without +)"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Default WhatsApp Message",
+        "default": "मुझे DIVJOT Pain Relief के बारे में जानकारी चाहिए",
+        "info": "Default message when users click WhatsApp button"
+      },
+      {
+        "type": "checkbox",
+        "id": "whatsapp_floating_button",
+        "label": "Show floating WhatsApp button",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Mobile Optimization",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Mobile Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "mobile_sticky_cta",
+        "label": "Sticky mobile CTA button",
+        "default": true,
+        "info": "Show sticky order button at bottom on mobile"
+      },
+      {
+        "type": "checkbox",
+        "id": "mobile_optimized_forms",
+        "label": "Mobile optimized forms",
+        "default": true,
+        "info": "Use mobile-friendly form inputs"
+      },
+      {
+        "type": "range",
+        "id": "mobile_font_scale",
+        "min": 80,
+        "max": 120,
+        "step": 5,
+        "unit": "%",
+        "label": "Mobile font scale",
+        "default": 90,
+        "info": "Adjust font size for mobile devices"
+      }
+    ]
+  }
+]

@@ -1,0 +1,202 @@
+<!doctype html>
+<html class="no-js" lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#28a745">
+  
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+  {%- endif -%}
+
+  {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+  {%- endunless -%}
+
+  <link rel="preload" as="style" href="{{ 'base.css' | asset_url }}">
+  <link rel="preload" as="style" href="{{ 'divjot-theme.css' | asset_url }}">
+  
+  <!-- Mobile Optimizations -->
+  {% render 'mobile-optimizations' %}
+
+  {%- unless settings.type_body_font.system? -%}
+    <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+  {%- endunless -%}
+  {%- unless settings.type_header_font.system? -%}
+    <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+  {%- endunless -%}
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'divjot-theme.css' | asset_url | stylesheet_tag }}
+
+  {%- unless settings.type_body_font.system? -%}
+    <link rel="stylesheet" href="{{ settings.type_body_font | font_url }}" media="print" onload="this.media='all'">
+    <noscript>{{ settings.type_body_font | font_url | stylesheet_tag }}</noscript>
+  {%- endunless -%}
+  {%- unless settings.type_header_font.system? -%}
+    <link rel="stylesheet" href="{{ settings.type_header_font | font_url }}" media="print" onload="this.media='all'">
+    <noscript>{{ settings.type_header_font | font_url | stylesheet_tag }}</noscript>
+  {%- endunless -%}
+
+  <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+  
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    {% if settings.facebook_pixel_id %}
+      fbq('init', '{{ settings.facebook_pixel_id }}');
+    {% endif %}
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    {% if settings.facebook_pixel_id %}
+      <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ settings.facebook_pixel_id }}&ev=PageView&noscript=1"/>
+    {% endif %}
+  </noscript>
+  <!-- End Facebook Pixel Code -->
+  
+  <!-- Google Analytics 4 -->
+  {% if settings.google_analytics_id %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.google_analytics_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ settings.google_analytics_id }}');
+    </script>
+  {% endif %}
+  
+  <!-- Google Tag Manager -->
+  {% if settings.google_tag_manager_id %}
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','{{ settings.google_tag_manager_id }}');</script>
+  {% endif %}
+</head>
+
+<body class="gradient">
+  <!-- Google Tag Manager (noscript) -->
+  {% if settings.google_tag_manager_id %}
+    <noscript><iframe src="https://www.googletagmanager.com/gtm.ns.html?id={{ settings.google_tag_manager_id }}"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  {% endif %}
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announcement-content">
+      <span class="announcement-icon">🔥</span>
+      <span class="announcement-text">जल्दी करें सीमित समय का ऑफर - 70% छूट केवल आज!</span>
+    </div>
+  </div>
+
+  <!-- CRM Settings Data -->
+  <div style="display: none;" 
+       data-crm-settings
+       data-crm-url="{{ settings.crm_api_url }}"
+       data-crm-token="{{ settings.crm_auth_token }}"
+       data-crm-domain="{{ settings.crm_domain }}">
+  </div>
+
+  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  <!-- Order Popup Modal -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>अभी ऑर्डर करें</h2>
+        <span class="close">&times;</span>
+      </div>
+      
+      <!-- Trust Badges -->
+      <div class="trust-badges">
+        <div class="trust-item">
+          <span class="trust-icon">🚚</span>
+          <span>मुफ्त शिपिंग</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">✅</span>
+          <span>असली उत्पाद</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">🕐</span>
+          <span>30 दिन रिटर्न</span>
+        </div>
+      </div>
+
+      <!-- Timer -->
+      <div class="offer-timer">
+        <div class="timer-text">⏰ ऑफर समाप्त होने में बचा समय:</div>
+        <div class="timer-display">
+          <span id="hours">02</span>
+          <span>घंटे</span>
+          <span id="minutes">47</span>
+          <span>मिनट</span>
+          <span id="seconds">15</span>
+          <span>सेकंड</span>
+        </div>
+      </div>
+
+      <!-- Order Form -->
+      <form id="orderForm" class="order-form">
+        <div class="form-group">
+          <label for="name">नाम *</label>
+          <input type="text" id="name" name="name" placeholder="नाम" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">फोन नंबर *</label>
+          <input type="tel" id="phone" name="phone" placeholder="फोन नंबर" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="pincode">पिन कोड *</label>
+          <input type="text" id="pincode" name="pincode" placeholder="पिन कोड" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="address">पता *</label>
+          <textarea id="address" name="address" placeholder="पता" required></textarea>
+        </div>
+        
+        <button type="submit" class="order-btn">अभी ऑर्डर करें - ₹3,150</button>
+        
+        <div class="offer-note">
+          ⚡ केवल आज 70% छूट के साथ फ्री होम डिलीवरी
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content success-content">
+      <div class="success-icon">✅</div>
+      <h2>ऑर्डर सफल!</h2>
+      <p>आपका ऑर्डर सफलतापूर्वक प्राप्त हो गया है। हमारी टीम जल्द ही आपसे संपर्क करेगी।</p>
+      <button class="close-success">धन्यवाद</button>
+    </div>
+  </div>
+
+  <script src="{{ 'divjot-theme.js' | asset_url }}" defer="defer"></script>
+</body>
+</html>

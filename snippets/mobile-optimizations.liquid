@@ -1,0 +1,211 @@
+<!-- Mobile Optimization Snippet -->
+
+<!-- Mobile Meta Tags -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#28a745">
+
+<!-- Mobile Settings Data Attributes -->
+<div style="display: none;" 
+     data-whatsapp-number="{{ settings.whatsapp_number | default: '919876543210' }}"
+     data-whatsapp-message="{{ settings.whatsapp_message | default: 'मुझे DIVJOT Pain Relief के बारे में जानकारी चाहिए' }}"
+     data-mobile-font-scale="{{ settings.mobile_font_scale | default: 90 }}">
+</div>
+
+<!-- Mobile Sticky CTA (will be added by JavaScript if enabled) -->
+{% if settings.mobile_sticky_cta %}
+<style>
+  .mobile-sticky-cta {
+    display: none;
+  }
+  
+  @media (max-width: 768px) {
+    .mobile-sticky-cta {
+      display: block !important;
+    }
+    
+    body {
+      padding-bottom: 80px;
+    }
+  }
+</style>
+{% endif %}
+
+<!-- Mobile Form Optimizations -->
+{% if settings.mobile_optimized_forms %}
+<style>
+  @media (max-width: 768px) {
+    input[type="tel"],
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      font-size: 16px !important; /* Prevents zoom on iOS */
+      -webkit-appearance: none;
+      border-radius: 8px;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+      transform: scale(1.02);
+      transition: transform 0.2s ease;
+    }
+  }
+</style>
+{% endif %}
+
+<!-- Mobile Font Scaling -->
+{% if settings.mobile_font_scale and settings.mobile_font_scale != 100 %}
+<style>
+  @media (max-width: 480px) {
+    :root {
+      --mobile-font-scale: {{ settings.mobile_font_scale | divided_by: 100.0 }};
+    }
+    
+    body {
+      font-size: calc(1rem * var(--mobile-font-scale));
+    }
+    
+    .hero-title {
+      font-size: calc(1.8rem * var(--mobile-font-scale));
+    }
+    
+    .section-title {
+      font-size: calc(1.6rem * var(--mobile-font-scale));
+    }
+    
+    .price {
+      font-size: calc(2rem * var(--mobile-font-scale));
+    }
+  }
+</style>
+{% endif %}
+
+<!-- Touch-Friendly Styles -->
+<style>
+  @media (hover: none) and (pointer: coarse) {
+    .cta-btn, 
+    .secondary-cta, 
+    .primary-cta, 
+    .tertiary-cta, 
+    .final-cta-btn, 
+    .order-btn {
+      min-height: 48px;
+      min-width: 48px;
+      padding: 14px 20px;
+      font-size: 1.1rem;
+    }
+    
+    .trust-item, 
+    .badge, 
+    .faq-question {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Larger tap targets */
+    a, button, input, textarea, select {
+      min-height: 44px;
+    }
+  }
+</style>
+
+<!-- Accessibility Improvements -->
+<style>
+  /* Reduced motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-float,
+    .announcement-icon {
+      animation: none !important;
+    }
+    
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+  
+  /* High contrast mode */
+  @media (prefers-contrast: high) {
+    .cta-btn, 
+    .secondary-cta, 
+    .primary-cta, 
+    .tertiary-cta, 
+    .final-cta-btn {
+      border: 2px solid currentColor;
+    }
+    
+    .modal-content {
+      border: 3px solid #000;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      border: 2px solid #000;
+    }
+  }
+</style>
+
+<!-- Mobile Performance Optimizations -->
+<style>
+  /* Optimize for mobile performance */
+  @media (max-width: 768px) {
+    /* Use transform instead of changing layout properties */
+    .benefit-item:hover,
+    .testimonial-item:hover,
+    .ingredient-item:hover {
+      transform: translateY(-2px);
+    }
+    
+    /* Reduce shadow complexity on mobile */
+    .modal-content,
+    .benefit-item,
+    .testimonial-item {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Optimize images for mobile */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+</style>
+
+<!-- Critical CSS for above-the-fold content -->
+<style>
+  /* Critical mobile styles loaded inline */
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 20px 0;
+    }
+    
+    .container {
+      padding: 0 15px;
+    }
+    
+    .hero-title {
+      font-size: 1.8rem;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    
+    .product-image img {
+      max-width: 250px;
+    }
+    
+    .pricing-section {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .cta-btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.1rem;
+    }
+  }
+</style>

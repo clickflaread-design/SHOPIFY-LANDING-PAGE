@@ -1,0 +1,79 @@
+{
+  "current": {
+    "colors_solid_button_labels": "#FFFFFF",
+    "colors_accent_1": "#28a745",
+    "colors_accent_2": "#ff4757",
+    "colors_text": "#121212",
+    "colors_outline_button_labels": "#121212",
+    "colors_background_1": "#FFFFFF",
+    "colors_background_2": "#F3F3F3",
+    "type_header_font": "assistant_n4",
+    "heading_scale": 100,
+    "type_body_font": "assistant_n4",
+    "body_scale": 100,
+    "page_width": 1200,
+    "spacing_sections": 0,
+    "buttons_border_thickness": 1,
+    "buttons_border_opacity": 100,
+    "buttons_radius": 0,
+    "buttons_shadow_opacity": 0,
+    "buttons_shadow_horizontal_offset": 0,
+    "buttons_shadow_vertical_offset": 4,
+    "buttons_shadow_blur": 5,
+    "inputs_border_thickness": 1,
+    "inputs_border_opacity": 55,
+    "inputs_radius": 0,
+    "inputs_shadow_opacity": 0,
+    "inputs_shadow_horizontal_offset": 0,
+    "inputs_shadow_vertical_offset": 4,
+    "inputs_shadow_blur": 5,
+    "product_name": "DIVJOT'S Pain Relief",
+    "product_price": 3150,
+    "product_description": "100% आयुर्वेदिक जोड़ों के दर्द की दवा",
+    "crm_api_url": "https://projects.erpthemes.com/api/dynamic/addRecordsDynamic?tempID=72&tempName=website_api_",
+    "crm_auth_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODQyYzk3ZDUxODZkYjBkMzE4ZGQxYjYiLCJzZXNzaW9uIjoiNjg0MmM5N2Q1MTg2ZGIwZDMxOGRkMWI4IiwibmFtZSI6IlZlZGFuYSBXZWxsbmVzIiwiZW1haWwiOiJnc2Fua2xhOEBnbWFpbC5jb20iLCJ1c2VyVHlwZSI6InVzZXIiLCJ1c2VySWQiOiI2ODQyYzk3ZDUxODZkYjBkMzE4ZGQxYjYiLCJpYXQiOjE3NDkyMDc0MjEsImV4cCI6MTkwNjk5NTQyMX0.CVI3qLjA7bWEo6Idh4KMwRFM0q8p-NJ1clP_qJUSd-1XT3xVz3W4fwC8FxHVxCTsKg4i07akjJCyku8Z2REjYmQN-F7emeYysvyzjbs_G5pYxcELG-xYm7VxfkTbU_W8doiyPtX5ZvphZBkEnrTdVzIMIsyjPha4qcncKSw3TC7rWU-Q4oLq7zP67LebXVKfNx111FMX5jQK7Aj7NlQokc93DrykrsDp9vDLUdSjKxTzthG74mRuFdBuBw44AvsY444zHfDffLgBAuPnQkvkDw_voyphvg0j84gzW9rIpz8oCtGNjEqBMVcfBTrE0Uiuc31aGwSOlfLusMXZqzl8bQ",
+    "crm_domain": "jointrelief.co.in",
+    "announcement_bar_enabled": true,
+    "announcement_text": "जल्दी करें सीमित समय का ऑफर - 70% छूट केवल आज!",
+    "announcement_color_bg": "#ff4757",
+    "announcement_color_text": "#ffffff",
+    "timer_hours": 2,
+    "timer_minutes": 47,
+    "timer_auto_reset": true,
+    "facebook_pixel_id": "",
+    "google_analytics_id": "",
+    "google_tag_manager_id": "",
+    "google_ads_conversion_id": "",
+    "google_ads_conversion_label": "",
+    "whatsapp_number": "919876543210",
+    "whatsapp_message": "मुझे DIVJOT Pain Relief के बारे में जानकारी चाहिए",
+    "whatsapp_floating_button": true,
+    "mobile_sticky_cta": true,
+    "mobile_optimized_forms": true,
+    "mobile_font_scale": 90,
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "text": "जल्दी करें सीमित समय का ऑफर - 70% छूट केवल आज!",
+          "color_scheme": "accent-2"
+        }
+      },
+      "hero": {
+        "type": "hero-section",
+        "settings": {
+          "hero_title": "जोड़ों के दर्द से पाएं स्थायी राहत",
+          "hero_subtitle": "100% आयुर्वेदिक DIVJOT'S Pain Relief",
+          "hero_benefit": "7 दिन में दर्द से मुक्ति",
+          "hero_price": 3150,
+          "price_description": "180 टैबलेट (3 महीने का कोर्स)",
+          "discount_text": "70% की छूट - आज ही!"
+        }
+      }
+    },
+    "content_for_index": [
+      "announcement-bar",
+      "hero"
+    ]
+  }
+}

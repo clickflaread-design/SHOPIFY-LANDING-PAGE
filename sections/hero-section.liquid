@@ -1,0 +1,113 @@
+{{ 'divjot-theme.css' | asset_url | stylesheet_tag }}
+
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">{{ settings.product_name | default: 'जोड़ों के दर्द से पाएं स्थायी राहत' }}</h1>
+      <p class="hero-subtitle">{{ settings.product_description | default: '100% आयुर्वेदिक DIVJOT\'S Pain Relief' }}</p>
+      <p class="hero-benefit">7 दिन में दर्द से मुक्ति</p>
+      
+      <div class="product-image">
+        {% if settings.product_image %}
+          <img src="{{ settings.product_image | img_url: '400x400' }}" alt="{{ settings.product_name }}" loading="lazy">
+        {% else %}
+          <img src="{{ 'divjot-product.jpg' | asset_url }}" alt="DIVJOT'S Pain Relief" loading="lazy">
+        {% endif %}
+      </div>
+      
+      <div class="pricing-section">
+        <div class="price-box">
+          <div class="special-price-label">विशेष मूल्य:</div>
+          <div class="price">₹{{ settings.product_price | default: 3150 }}</div>
+          <div class="price-details">180 टैबलेट (3 महीने का कोर्स)</div>
+          <div class="discount">70% की छूट - आज ही!</div>
+        </div>
+        
+        <div class="timer-box">
+          <div class="timer-label">समाप्त होने में बाकी समय:</div>
+          <div class="timer" id="mainTimer">
+            <span id="mainHours">{{ settings.timer_hours | default: 4 | prepend: '0' | slice: -2, 2 }}</span>:<span id="mainMinutes">{{ settings.timer_minutes | default: 44 | prepend: '0' | slice: -2, 2 }}</span>
+          </div>
+        </div>
+        
+        <button class="cta-btn" onclick="openOrderModal()">अभी ऑर्डर करें</button>
+      </div>
+      
+      <!-- Trust Indicators -->
+      <div class="trust-indicators">
+        <div class="trust-item">
+          <span class="check-icon">✓</span>
+          <span>कैश ऑन डिलीवरी</span>
+        </div>
+        <div class="trust-item">
+          <span class="check-icon">✓</span>
+          <span>तेज डिलीवरी</span>
+        </div>
+        <div class="trust-item">
+          <span class="check-icon">✓</span>
+          <span>100% सुरक्षित</span>
+        </div>
+        <div class="trust-item">
+          <span class="check-icon">✓</span>
+          <span>मनी बैक गारंटी</span>
+        </div>
+      </div>
+      
+      <button class="secondary-cta" onclick="openOrderModal()">🛒 अभी ऑर्डर करें - ₹{{ settings.product_price | default: 3150 }}</button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "जोड़ों के दर्द से पाएं स्थायी राहत"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "100% आयुर्वेदिक DIVJOT'S Pain Relief"
+    },
+    {
+      "type": "text",
+      "id": "hero_benefit",
+      "label": "Hero Benefit",
+      "default": "7 दिन में दर्द से मुक्ति"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image",
+      "label": "Product Image"
+    },
+    {
+      "type": "number",
+      "id": "hero_price",
+      "label": "Product Price",
+      "default": 3150
+    },
+    {
+      "type": "text",
+      "id": "price_description",
+      "label": "Price Description",
+      "default": "180 टैबलेट (3 महीने का कोर्स)"
+    },
+    {
+      "type": "text",
+      "id": "discount_text",
+      "label": "Discount Text",
+      "default": "70% की छूट - आज ही!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Section"
+    }
+  ]
+}
+{% endschema %}
