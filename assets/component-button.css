@@ -1,0 +1,147 @@
+/* Shopify 2.0 Button Component */
+
+.button {
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  padding: 1.5rem 3rem;
+  text-decoration: none;
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+  border-radius: var(--buttons-radius);
+  letter-spacing: 0.1rem;
+  white-space: nowrap;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  transition: box-shadow var(--duration-short) ease;
+  position: relative;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.button:hover {
+  box-shadow: 0 0 0 0.1rem rgb(var(--color-button));
+  color: rgb(var(--color-button));
+  background-color: rgb(var(--color-background));
+}
+
+.button--primary {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+  border: none;
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+.button--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.6);
+  color: white;
+  background: linear-gradient(45deg, #20c997, #28a745);
+}
+
+.button--secondary {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  color: white;
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+.button--secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.6);
+  color: white;
+  background: linear-gradient(45deg, #0056b3, #007bff);
+}
+
+.button--tertiary {
+  background: linear-gradient(45deg, #fd7e14, #e55a00);
+  color: white;
+  box-shadow: 0 5px 15px rgba(253, 126, 20, 0.4);
+}
+
+.button--tertiary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(253, 126, 20, 0.6);
+  color: white;
+  background: linear-gradient(45deg, #e55a00, #fd7e14);
+}
+
+.button--outline {
+  background-color: transparent;
+  color: rgb(var(--color-foreground));
+  box-shadow: 0 0 0 0.1rem rgb(var(--color-foreground));
+}
+
+.button--outline:hover {
+  background-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.button--full-width {
+  width: 100%;
+}
+
+.button--small {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+}
+
+.button--large {
+  padding: 2rem 4rem;
+  font-size: 1.6rem;
+}
+
+/* Loading state */
+.button--loading {
+  opacity: 0.7;
+  pointer-events: none;
+  position: relative;
+}
+
+.button--loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid currentColor;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: button-loading-spinner 1s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mobile optimizations */
+@media screen and (max-width: 749px) {
+  .button {
+    padding: 1.2rem 2.4rem;
+    font-size: 1.2rem;
+  }
+  
+  .button--small {
+    padding: 1rem 1.8rem;
+    font-size: 1rem;
+  }
+  
+  .button--large {
+    padding: 1.5rem 3rem;
+    font-size: 1.4rem;
+  }
+}
+
+/* Touch-friendly buttons for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .button {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 14px 20px;
+  }
+}

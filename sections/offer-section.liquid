@@ -1,0 +1,291 @@
+{{ 'section-offer.css' | asset_url | stylesheet_tag }}
+
+<div class="offer-section color-{{ section.settings.color_scheme }} gradient"
+     id="Offer-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    <div class="offer-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="offer-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.subheading != blank -%}
+        <p class="offer-subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      
+      <div class="offer-product">
+        {%- if section.settings.product_name != blank -%}
+          <h3 class="product-name">{{ section.settings.product_name }}</h3>
+        {%- endif -%}
+        
+        {%- if section.settings.product_description != blank -%}
+          <p class="product-description">{{ section.settings.product_description }}</p>
+        {%- endif -%}
+        
+        {%- if section.settings.price > 0 -%}
+          <div class="price-display">
+            <span class="current-price">₹{{ section.settings.price }}</span>
+            {%- if section.settings.discount_percentage > 0 -%}
+              <span class="discount-badge">{{ section.settings.discount_percentage }}% की छूट</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      
+      {%- if section.settings.show_timer -%}
+        <div class="offer-timer">
+          <div class="timer-text">ऑफर समाप्त होने में:</div>
+          <div class="timer-display" id="offerTimer">
+            <span id="offerHours">02</span>:<span id="offerMinutes">47</span>
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- if section.settings.show_guarantees -%}
+        <div class="guarantee-badges">
+          <div class="guarantee-item">
+            <span class="guarantee-icon">✅</span>
+            <span>30 दिन गारंटी</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-icon">🛡️</span>
+            <span>100% सुरक्षित</span>
+          </div>
+          <div class="guarantee-item">
+            <span class="guarantee-icon">🚚</span>
+            <span>फ्री डिलीवरी</span>
+          </div>
+        </div>
+      {%- endif -%}
+      
+      <div class="offer-actions">
+        <button class="button button--primary button--full-width" onclick="openOrderModal()">
+          ⚡ अभी कॉन्फर्म करें - {{ section.settings.discount_percentage }}% छूट पाएं
+        </button>
+        <button class="button button--secondary button--full-width" onclick="openOrderModal()">
+          ✓ अभी ऑर्डर करें - फ्री डिलीवरी
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.offer-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #ff4757, #ff3838);
+  color: white;
+  text-align: center;
+}
+
+.offer-content {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.offer-heading {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.offer-subheading {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.offer-product {
+  margin-bottom: 30px;
+}
+
+.product-name {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.product-description {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.price-display {
+  margin-bottom: 20px;
+}
+
+.current-price {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffd700;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.discount-badge {
+  background: #28a745;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.offer-timer {
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.timer-text {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.timer-display {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.guarantee-badges {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  padding: 10px 15px;
+  border-radius: 25px;
+}
+
+.guarantee-icon {
+  font-size: 1.2rem;
+}
+
+.offer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 749px) {
+  .offer-heading {
+    font-size: 2rem;
+  }
+  
+  .current-price {
+    font-size: 2.5rem;
+  }
+  
+  .timer-display {
+    font-size: 2rem;
+  }
+  
+  .guarantee-badges {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Offer section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "सीमित समय ऑफर - 70% छूट",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "आज ही ऑर्डर करें - कल कीमत बढ़ सकती है",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "default": "DIVJOT'S Pain Relief",
+      "label": "Product name"
+    },
+    {
+      "type": "textarea",
+      "id": "product_description",
+      "default": "100% आयुर्वेदिक से 7 दिन में दर्द से मुक्ति",
+      "label": "Product description"
+    },
+    {
+      "type": "number",
+      "id": "price",
+      "default": 3150,
+      "label": "Price"
+    },
+    {
+      "type": "range",
+      "id": "discount_percentage",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "default": 70,
+      "label": "Discount percentage"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timer",
+      "default": true,
+      "label": "Show countdown timer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guarantees",
+      "default": true,
+      "label": "Show guarantee badges"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-2",
+      "label": "Color scheme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Offer section"
+    }
+  ]
+}
+{% endschema %}

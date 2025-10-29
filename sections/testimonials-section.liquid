@@ -1,0 +1,268 @@
+{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}
+
+<div class="testimonials-section color-{{ section.settings.color_scheme }} gradient"
+     id="Testimonials-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="testimonials-grid grid grid--1-col grid--2-col-tablet grid--3-col-desktop">
+        {%- for block in section.blocks -%}
+          <div class="testimonial-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.rating > 0 -%}
+              <div class="testimonial-rating">
+                {%- for i in (1..5) -%}
+                  {%- if i <= block.settings.rating -%}
+                    ⭐
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            
+            {%- if block.settings.content != blank -%}
+              <blockquote class="testimonial-content">
+                "{{ block.settings.content }}"
+              </blockquote>
+            {%- endif -%}
+            
+            <div class="testimonial-author">
+              {%- if block.settings.author != blank -%}
+                <cite class="author-name">- {{ block.settings.author }}</cite>
+              {%- endif -%}
+              {%- if block.settings.location != blank -%}
+                <span class="author-location">, {{ block.settings.location }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+    
+    {%- if section.settings.show_rating_summary -%}
+      <div class="rating-summary">
+        <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+        <div class="rating-text">{{ section.settings.overall_rating }}/5 ({{ section.settings.total_reviews }} रिव्यू)</div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.testimonials-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: white;
+  margin: 0;
+}
+
+.testimonials-grid {
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.testimonial-item {
+  background: rgba(255,255,255,0.1);
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.testimonial-rating {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #ffd700;
+}
+
+.testimonial-content {
+  font-style: italic;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin: 0 0 15px 0;
+}
+
+.testimonial-author {
+  font-weight: bold;
+  color: #f0f0f0;
+}
+
+.author-name {
+  font-style: normal;
+}
+
+.author-location {
+  font-weight: normal;
+}
+
+.rating-summary {
+  text-align: center;
+}
+
+.rating-stars {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 10px;
+}
+
+.rating-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 749px) {
+  .section-heading {
+    font-size: 2rem;
+  }
+  
+  .testimonial-item {
+    padding: 20px;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Testimonials section",
+  "tag": "section", 
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "खुश ग्राहकों की राय",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating_summary",
+      "default": true,
+      "label": "Show rating summary"
+    },
+    {
+      "type": "text",
+      "id": "overall_rating",
+      "default": "4.9",
+      "label": "Overall rating"
+    },
+    {
+      "type": "text",
+      "id": "total_reviews",
+      "default": "1,00,000+",
+      "label": "Total reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "Rating"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "default": "Customer testimonial content",
+          "label": "Testimonial content"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "default": "Customer Name",
+          "label": "Author name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "default": "City",
+          "label": "Location"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials section",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "मेरे घुटने का दर्द 15 सालों से था। DIVJOT'S लेने के बाद सिर्फ 10 दिन में 80% आराम मिल गया।",
+            "author": "राजेश शर्मा",
+            "location": "दिल्ली"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "कमर दर्द की वजह से चलना-फिरना मुश्किल था। अब मैं बिल्कुल ठीक हूं। धन्यवाद DIVJOT'S!",
+            "author": "सुनीता देवी",
+            "location": "मुंबई"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "गर्दन और कंधे का दर्द गायब हो गया। 100% प्राकृतिक होने से कोई साइड इफेक्ट भी नहीं।",
+            "author": "अमित कुमार",
+            "location": "पुणे"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

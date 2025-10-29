@@ -1,0 +1,109 @@
+{{ 'section-announcement-bar.css' | asset_url | stylesheet_tag }}
+
+<div class="announcement-bar color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="announcement-bar__message">
+      <span class="announcement-bar__icon">🔥</span>
+      {%- if section.settings.text != blank -%}
+        <span class="announcement-bar__text">{{ section.settings.text | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.show_social -%}
+        <div class="announcement-bar__social">
+          <!-- Social icons can be added here -->
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+.announcement-bar {
+  background: linear-gradient(45deg, #ff4757, #ff3838);
+  color: white;
+  padding: 12px 0;
+  text-align: center;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.announcement-bar__message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.announcement-bar__icon {
+  font-size: 1.2em;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.announcement-bar__text {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 749px) {
+  .announcement-bar__text {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "default": "जल्दी करें सीमित समय का ऑफर - 70% छूट केवल आज!",
+      "label": "Text"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": false,
+      "label": "Show social media icons"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar"
+    }
+  ]
+}
+{% endschema %}

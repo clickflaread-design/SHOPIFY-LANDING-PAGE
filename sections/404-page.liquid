@@ -1,0 +1,179 @@
+{{ 'section-404.css' | asset_url | stylesheet_tag }}
+
+<div class="error-page color-{{ section.settings.color_scheme }}"
+     id="Error-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    <div class="error-content">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="error-heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      
+      {%- if section.settings.subheading != blank -%}
+        <p class="error-subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.button_text != blank and section.settings.button_url != blank -%}
+        <a href="{{ section.settings.button_url }}" class="button button--primary">
+          {{ section.settings.button_text }}
+        </a>
+      {%- endif -%}
+      
+      {%- if section.settings.show_search -%}
+        <div class="error-search">
+          <form action="{{ routes.search_url }}" method="get" class="search-form">
+            <input type="search" name="q" placeholder="खोजें..." class="search-input">
+            <button type="submit" class="search-button">खोजें</button>
+          </form>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+.error-page {
+  padding: 60px 0;
+  text-align: center;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.error-content {
+  width: 100%;
+}
+
+.error-heading {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.error-subheading {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.button {
+  display: inline-block;
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.error-search {
+  margin-top: 30px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 749px) {
+  .error-heading {
+    font-size: 2rem;
+  }
+  
+  .search-form {
+    flex-direction: column;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "404 page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "404 - पृष्ठ नहीं मिला",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "क्षमा करें, आपके द्वारा खोजा गया पृष्ठ उपलब्ध नहीं है।",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "होम पेज पर वापस जाएं",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "default": "/",
+      "label": "Button URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "default": true,
+      "label": "Show search"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    }
+  ]
+}
+{% endschema %}

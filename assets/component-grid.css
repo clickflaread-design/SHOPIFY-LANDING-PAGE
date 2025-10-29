@@ -1,0 +1,153 @@
+/* Shopify 2.0 Grid System */
+
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.grid--1-col {
+  grid-template-columns: 1fr;
+}
+
+.grid--2-col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4-col {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid--5-col {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.grid--6-col {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+/* Tablet breakpoint */
+@media screen and (min-width: 750px) {
+  .grid--2-col-tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid--3-col-tablet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid--4-col-tablet {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Desktop breakpoint */
+@media screen and (min-width: 990px) {
+  .grid--2-col-desktop {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid--3-col-desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid--4-col-desktop {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .grid--5-col-desktop {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  
+  .grid--6-col-desktop {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Page width container */
+.page-width {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .page-width {
+    padding: 0 5rem;
+  }
+}
+
+/* Section spacing */
+.section {
+  padding: 5rem 0;
+}
+
+@media screen and (max-width: 749px) {
+  .section {
+    padding: 3rem 0;
+  }
+}
+
+/* Color schemes */
+.color-accent-1 {
+  background-color: rgb(var(--color-base-accent-1));
+  color: rgb(var(--color-base-text));
+}
+
+.color-accent-2 {
+  background-color: rgb(var(--color-base-accent-2));
+  color: rgb(var(--color-base-text));
+}
+
+.color-background-1 {
+  background-color: rgb(var(--color-base-background-1));
+  color: rgb(var(--color-base-text));
+}
+
+.color-background-2 {
+  background-color: rgb(var(--color-base-background-2));
+  color: rgb(var(--color-base-text));
+}
+
+/* Gradient utility */
+.gradient {
+  background: linear-gradient(135deg, rgb(var(--color-base-accent-1)) 0%, rgb(var(--color-base-accent-2)) 100%);
+}
+
+/* Responsive utilities */
+.small-hide {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .small-hide {
+    display: block;
+  }
+  
+  .small-show {
+    display: none;
+  }
+}
+
+.medium-hide {
+  display: block;
+}
+
+@media screen and (min-width: 990px) {
+  .medium-hide {
+    display: none;
+  }
+  
+  .medium-show {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .medium-show {
+    display: none;
+  }
+}

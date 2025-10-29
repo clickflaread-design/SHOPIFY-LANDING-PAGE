@@ -1,0 +1,238 @@
+{{ 'section-faq.css' | asset_url | stylesheet_tag }}
+
+<div class="faq-section color-{{ section.settings.color_scheme }}"
+     id="FAQ-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="faq-list">
+        {%- for block in section.blocks -%}
+          <div class="faq-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.question != blank -%}
+              <button class="faq-question" type="button" aria-expanded="false">
+                {{ block.settings.question }}
+                <span class="faq-icon">+</span>
+              </button>
+            {%- endif -%}
+            {%- if block.settings.answer != blank -%}
+              <div class="faq-answer">
+                <div class="faq-answer-content">
+                  {{ block.settings.answer }}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.faq-section {
+  padding: 60px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 0;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 20px 0;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.faq-question:hover {
+  color: #28a745;
+}
+
+.faq-question[aria-expanded="true"] {
+  color: #28a745;
+}
+
+.faq-question[aria-expanded="true"] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-icon {
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 15px;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer.active {
+  max-height: 200px;
+}
+
+.faq-answer-content {
+  padding-bottom: 20px;
+  color: #666;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 749px) {
+  .section-heading {
+    font-size: 2rem;
+  }
+  
+  .faq-question {
+    font-size: 1rem;
+    padding: 15px 0;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', function() {
+      const answer = this.nextElementSibling;
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      
+      // Close all other answers
+      faqQuestions.forEach(otherQuestion => {
+        if (otherQuestion !== this) {
+          otherQuestion.setAttribute('aria-expanded', 'false');
+          otherQuestion.nextElementSibling.classList.remove('active');
+        }
+      });
+      
+      // Toggle current answer
+      this.setAttribute('aria-expanded', !isExpanded);
+      answer.classList.toggle('active', !isExpanded);
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "FAQ section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "अक्सर पूछे जाने वाले प्रश्न",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "default": "Your question here?",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "default": "Your answer here.",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ section",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "क्या DIVJOT'S Pain Relief सुरक्षित है?",
+            "answer": "हां, यह 100% आयुर्वेदिक है और इसका कोई साइड इफेक्ट नहीं है।"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "कितने दिन में असर दिखता है?",
+            "answer": "आमतौर पर 7-10 दिन में दर्द में काफी राहत मिलती है।"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "क्या यह सभी उम्र के लोग ले सकते हैं?",
+            "answer": "हां, 18 साल से ऊपर के सभी लोग इसे ले सकते हैं।"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

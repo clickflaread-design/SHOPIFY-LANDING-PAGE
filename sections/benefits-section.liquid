@@ -1,0 +1,197 @@
+{{ 'section-benefits.css' | asset_url | stylesheet_tag }}
+
+<div class="benefits-section color-{{ section.settings.color_scheme }}"
+     id="Benefits-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="benefits-grid grid grid--1-col grid--2-col-tablet grid--{{ section.blocks.size | at_most: 4 }}-col-desktop">
+        {%- for block in section.blocks -%}
+          <div class="benefit-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <div class="benefit-icon">{{ block.settings.icon }}</div>
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <h3 class="benefit-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="benefit-description">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.benefits-section {
+  padding: 60px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.benefits-grid {
+  gap: 30px;
+}
+
+.benefit-item {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.benefit-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.benefit-description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .section-heading {
+    font-size: 2rem;
+  }
+  
+  .benefit-item {
+    padding: 20px 15px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Benefits section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "क्यों चुनें DIVJOT'S Pain Relief?",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "default": "🌿",
+          "label": "Icon (emoji)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Benefit title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "default": "Benefit description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefits section",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "🌿",
+            "title": "100% आयुर्वेदिक",
+            "description": "प्राकृतिक जड़ी-बूटियों से बना, कोई साइड इफेक्ट नहीं"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "⚡",
+            "title": "तुरंत राहत",
+            "description": "7 दिन में दर्द से छुटकारा, लंबे समय तक आराम"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "🎯",
+            "title": "सभी प्रकार के दर्द",
+            "description": "घुटने, कमर, गर्दन, कंधे के दर्द में प्रभावी"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "👨‍⚕️",
+            "title": "डॉक्टर अप्रूव्ड",
+            "description": "आयुर्वेदिक डॉक्टरों द्वारा सुझाया गया फॉर्मूला"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

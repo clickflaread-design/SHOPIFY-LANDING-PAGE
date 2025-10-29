@@ -1,0 +1,198 @@
+{{ 'section-ingredients.css' | asset_url | stylesheet_tag }}
+
+<div class="ingredients-section color-{{ section.settings.color_scheme }}"
+     id="Ingredients-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="ingredients-grid grid grid--1-col grid--2-col-tablet grid--4-col-desktop">
+        {%- for block in section.blocks -%}
+          <div class="ingredient-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <div class="ingredient-icon">{{ block.settings.icon }}</div>
+            {%- endif -%}
+            {%- if block.settings.name != blank -%}
+              <h3 class="ingredient-name">{{ block.settings.name }}</h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="ingredient-description">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.ingredients-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.ingredients-grid {
+  gap: 30px;
+}
+
+.ingredient-item {
+  text-align: center;
+  padding: 30px 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.ingredient-item:hover {
+  transform: translateY(-5px);
+}
+
+.ingredient-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.ingredient-name {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.ingredient-description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .section-heading {
+    font-size: 2rem;
+  }
+  
+  .ingredient-item {
+    padding: 20px 15px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Ingredients section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "प्राकृतिक सामग्री",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-2",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "default": "🌿",
+          "label": "Icon (emoji)"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "default": "Ingredient name",
+          "label": "Name"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "default": "Ingredient description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients section",
+      "blocks": [
+        {
+          "type": "ingredient",
+          "settings": {
+            "icon": "🌿",
+            "name": "अश्वगंधा",
+            "description": "सूजन कम करता है और दर्द से राहत देता है"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "icon": "🌿",
+            "name": "हल्दी",
+            "description": "प्राकृतिक एंटी-इंफ्लेमेटरी और दर्द निवारक"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "icon": "🌿",
+            "name": "गुग्गुल",
+            "description": "जोड़ों की गतिशीलता बढ़ाता है"
+          }
+        },
+        {
+          "type": "ingredient",
+          "settings": {
+            "icon": "🌿",
+            "name": "शल्लकी",
+            "description": "कार्टिलेज को मजबूत बनाता है"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

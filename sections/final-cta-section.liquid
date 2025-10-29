@@ -1,0 +1,186 @@
+{{ 'section-final-cta.css' | asset_url | stylesheet_tag }}
+
+<div class="final-cta-section color-{{ section.settings.color_scheme }} gradient"
+     id="FinalCTA-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    <div class="final-cta-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="final-cta-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      
+      {%- if section.settings.subheading != blank -%}
+        <p class="final-cta-subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      
+      {%- if section.settings.show_timer -%}
+        <div class="final-timer">
+          <div class="timer-text">ऑफर समाप्त होने में:</div>
+          <div class="timer-display" id="finalTimer">
+            <span id="finalHours">02</span>:<span id="finalMinutes">35</span>
+          </div>
+        </div>
+      {%- endif -%}
+      
+      {%- if section.settings.price > 0 -%}
+        <button class="button button--primary button--large" onclick="openOrderModal()">
+          🛒 अभी ऑर्डर करें - ₹{{ section.settings.price }}
+        </button>
+      {%- endif -%}
+      
+      {%- if section.settings.show_trust_badges -%}
+        <div class="final-trust-badges">
+          <span class="trust-badge">✓ कैश ऑन डिलीवरी</span>
+          <span class="trust-badge">✓ तेज डिलीवरी</span>
+          <span class="trust-badge">✓ 100% सुरक्षित</span>
+          <span class="trust-badge">✓ मनी बैक गारंटी</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+.final-cta-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  text-align: center;
+}
+
+.final-cta-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.final-cta-heading {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.final-cta-subheading {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.final-timer {
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 30px 0;
+  display: inline-block;
+}
+
+.timer-text {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.timer-display {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.final-trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.trust-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 749px) {
+  .final-cta-heading {
+    font-size: 2rem;
+  }
+  
+  .timer-display {
+    font-size: 2rem;
+  }
+  
+  .final-trust-badges {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Final CTA section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "अब और इंतजार न करें!",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "जोड़ों के दर्द से आज ही छुटकारा पाएं",
+      "label": "Subheading"
+    },
+    {
+      "type": "number",
+      "id": "price",
+      "default": 3150,
+      "label": "Price"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timer",
+      "default": true,
+      "label": "Show countdown timer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "default": true,
+      "label": "Show trust badges"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Final CTA section"
+    }
+  ]
+}
+{% endschema %}

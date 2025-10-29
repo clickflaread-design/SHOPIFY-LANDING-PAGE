@@ -242,6 +242,12 @@ a:hover {
 
   --page-width: 120rem;
   --page-width-margin: 2rem;
+  
+  /* Shopify 2.0 Color Variables */
+  --color-base-accent-1: 40, 167, 69;
+  --color-base-accent-2: 255, 71, 87;
+  --color-base-background-1: 255, 255, 255;
+  --color-base-background-2: 248, 249, 250;
 
   --card-image-padding: 0.0rem;
   --card-corner-radius: 0.0rem;

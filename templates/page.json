@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "page",
+      "settings": {
+        "show_title": true,
+        "title_alignment": "center",
+        "content_alignment": "left",
+        "color_scheme": "background-1"
+      }
+    }
+  },
+  "order": ["main"]
+}

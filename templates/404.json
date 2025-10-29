@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "404-page",
+      "settings": {
+        "heading": "404 - पृष्ठ नहीं मिला",
+        "subheading": "क्षमा करें, आपके द्वारा खोजा गया पृष्ठ उपलब्ध नहीं है।",
+        "button_text": "होम पेज पर वापस जाएं",
+        "button_url": "/",
+        "show_search": true
+      }
+    }
+  },
+  "order": ["main"]
+}

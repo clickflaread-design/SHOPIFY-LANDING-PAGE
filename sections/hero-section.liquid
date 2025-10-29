@@ -1,6 +1,8 @@
-{{ 'divjot-theme.css' | asset_url | stylesheet_tag }}
+{{ 'section-hero.css' | asset_url | stylesheet_tag }}
 
-<section class="hero-section">
+<section class="hero-section color-{{ section.settings.color_scheme }} gradient"
+         id="Hero-{{ section.id }}"
+         data-section="{{ section.id }}">
   <div class="container">
     <div class="hero-content">
       <h1 class="hero-title">{{ settings.product_name | default: 'जोड़ों के दर्द से पाएं स्थायी राहत' }}</h1>
@@ -61,7 +63,33 @@
 {% schema %}
 {
   "name": "Hero Section",
+  "tag": "section",
+  "class": "section",
   "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2", 
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
     {
       "type": "text",
       "id": "hero_title",
@@ -102,6 +130,30 @@
       "id": "discount_text",
       "label": "Discount Text",
       "default": "70% की छूट - आज ही!"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timer",
+      "label": "Show countdown timer",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "timer_hours",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "label": "Timer hours",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "timer_minutes",
+      "min": 0,
+      "max": 59,
+      "step": 1,
+      "label": "Timer minutes",
+      "default": 47
     }
   ],
   "presets": [

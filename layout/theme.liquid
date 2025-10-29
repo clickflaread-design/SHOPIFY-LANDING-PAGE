@@ -36,6 +36,8 @@
   {%- endunless -%}
 
   {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'component-grid.css' | asset_url | stylesheet_tag }}
+  {{ 'component-button.css' | asset_url | stylesheet_tag }}
   {{ 'divjot-theme.css' | asset_url | stylesheet_tag }}
 
   {%- unless settings.type_body_font.system? -%}

@@ -1,0 +1,159 @@
+{{ 'section-page.css' | asset_url | stylesheet_tag }}
+
+<div class="page-section color-{{ section.settings.color_scheme }}"
+     id="Page-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    <article class="page-article">
+      {%- if section.settings.show_title and page.title != blank -%}
+        <header class="page-header text-{{ section.settings.title_alignment }}">
+          <h1 class="page-title">{{ page.title }}</h1>
+        </header>
+      {%- endif -%}
+      
+      <div class="page-content text-{{ section.settings.content_alignment }}">
+        {{ page.content }}
+      </div>
+    </article>
+  </div>
+</div>
+
+<style>
+.page-section {
+  padding: 40px 0;
+}
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.page-content {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.page-content h2 {
+  color: #28a745;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.page-content p {
+  margin-bottom: 20px;
+}
+
+.page-content ul, 
+.page-content ol {
+  margin-bottom: 20px;
+  padding-left: 30px;
+}
+
+.page-content li {
+  margin-bottom: 8px;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+@media screen and (max-width: 749px) {
+  .page-title {
+    font-size: 2rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "default": true,
+      "label": "Show page title"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Title alignment"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Content alignment"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,193 @@
+{{ 'section-how-it-works.css' | asset_url | stylesheet_tag }}
+
+<div class="how-it-works-section color-{{ section.settings.color_scheme }}"
+     id="HowItWorks-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="steps-grid grid grid--1-col grid--2-col-tablet grid--3-col-desktop">
+        {%- for block in section.blocks -%}
+          <div class="step-item" {{ block.shopify_attributes }}>
+            {%- if block.settings.step_number > 0 -%}
+              <div class="step-number">{{ block.settings.step_number }}</div>
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <h3 class="step-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <p class="step-description">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.how-it-works-section {
+  padding: 60px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: #333;
+  margin: 0;
+}
+
+.steps-grid {
+  gap: 30px;
+}
+
+.step-item {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, #28a745, #20c997);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto 20px;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.step-description {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .section-heading {
+    font-size: 2rem;
+  }
+  
+  .step-item {
+    padding: 20px 15px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "How it works section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "कैसे काम करता है?",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "range",
+          "id": "step_number",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 1,
+          "label": "Step number"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Step title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "default": "Step description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works section",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_number": 1,
+            "title": "सूजन कम करता है",
+            "description": "प्राकृतिक एंटी-इंफ्लेमेटरी तत्व सूजन घटाते हैं"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": 2,
+            "title": "दर्द से राहत",
+            "description": "तुरंत दर्द निवारक प्रभाव, लंबे समय तक आराम"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": 3,
+            "title": "जोड़ों को मजबूत बनाता है",
+            "description": "कार्टिलेज को रिपेयर करके जोड़ों को स्वस्थ रखता है"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
