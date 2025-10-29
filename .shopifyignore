@@ -1,0 +1,39 @@
+# Shopify CLI ignore file
+# Files and directories to ignore when uploading to Shopify
+
+# Version control
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules
+node_modules/
+
+# Build files
+dist/
+build/
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Documentation
+README.md
+THEME_STATUS.md
+
+# Development files
+package.json
+package-lock.json
+yarn.lock

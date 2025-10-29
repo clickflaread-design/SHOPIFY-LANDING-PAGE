@@ -1,0 +1,30 @@
+{
+  "general": {
+    "meta": {
+      "tags": "टैग किया गया \"{{ tags }}\"",
+      "page": "पृष्ठ {{ page }}"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "कार्ट में जोड़ें",
+      "price": "मूल्य",
+      "vendor": "विक्रेता"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "कार्ट",
+      "remove": "हटाएं",
+      "subtotal": "उप-योग"
+    }
+  },
+  "divjot": {
+    "product_name": "DIVJOT'S Pain Relief",
+    "product_description": "100% आयुर्वेदिक जोड़ों के दर्द की दवा",
+    "order_now": "अभी ऑर्डर करें",
+    "free_delivery": "मुफ्त डिलीवरी",
+    "genuine_product": "असली उत्पाद",
+    "money_back_guarantee": "मनी बैक गारंटी"
+  }
+}
