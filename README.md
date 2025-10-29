@@ -1,6 +1,6 @@
-# DIVJOT's Pain Relief - Shopify Theme
+# DIVJOT Pain Relief - Shopify Theme
 
-A complete Shopify theme for DIVJOT's Pain Relief product landing page with Hindi content, CRM integration, and conversion-optimized design.
+A complete Shopify theme for DIVJOT Pain Relief product landing page with Hindi content, CRM integration, and conversion-optimized design.
 
 ## Features
 
@@ -151,7 +151,7 @@ The theme supports:
 For support and customization requests, contact the development team.
 
 ## License
-This theme is proprietary and licensed for use with DIVJOT's Pain Relief product only.
+This theme is proprietary and licensed for use with DIVJOT Pain Relief product only.
 
 ---
 

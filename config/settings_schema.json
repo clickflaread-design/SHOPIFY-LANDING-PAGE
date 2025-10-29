@@ -301,7 +301,7 @@
         "type": "text",
         "id": "product_name",
         "label": "Product Name",
-        "default": "DIVJOT'S Pain Relief"
+        "default": "DIVJOT Pain Relief"
       },
       {
         "type": "number",
@@ -330,7 +330,7 @@
         "content": "CRM Integration"
       },
       {
-        "type": "url",
+        "type": "text",
         "id": "crm_api_url",
         "label": "CRM API URL",
         "default": "https://projects.erpthemes.com/api/dynamic/addRecordsDynamic?tempID=72&tempName=website_api_"

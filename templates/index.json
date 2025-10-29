@@ -12,7 +12,7 @@
       "type": "hero-section",
       "settings": {
         "hero_title": "जोड़ों के दर्द से पाएं स्थायी राहत",
-        "hero_subtitle": "100% आयुर्वेदिक DIVJOT'S Pain Relief",
+        "hero_subtitle": "100% आयुर्वेदिक DIVJOT Pain Relief",
         "hero_benefit": "7 दिन में दर्द से मुक्ति",
         "hero_price": 3150,
         "price_description": "180 टैबलेट (3 महीने का कोर्स)",
@@ -60,7 +60,7 @@
       },
       "block_order": ["benefit_1", "benefit_2", "benefit_3", "benefit_4"],
       "settings": {
-        "heading": "क्यों चुनें DIVJOT'S Pain Relief?",
+        "heading": "क्यों चुनें DIVJOT Pain Relief?",
         "color_scheme": "background-1"
       }
     },
@@ -71,7 +71,7 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "content": "मेरे घुटने का दर्द 15 सालों से था। DIVJOT'S लेने के बाद सिर्फ 10 दिन में 80% आराम मिल गया।",
+            "content": "मेरे घुटने का दर्द 15 सालों से था। DIVJOT लेने के बाद सिर्फ 10 दिन में 80% आराम मिल गया।",
             "author": "राजेश शर्मा",
             "location": "दिल्ली"
           }
@@ -80,7 +80,7 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "content": "कमर दर्द की वजह से चलना-फिरना मुश्किल था। अब मैं बिल्कुल ठीक हूं। धन्यवाद DIVJOT'S!",
+            "content": "कमर दर्द की वजह से चलना-फिरना मुश्किल था। अब मैं बिल्कुल ठीक हूं। धन्यवाद DIVJOT!",
             "author": "सुनीता देवी",
             "location": "मुंबई"
           }
@@ -185,7 +185,7 @@
       "settings": {
         "heading": "सीमित समय ऑफर - 70% छूट",
         "subheading": "आज ही ऑर्डर करें - कल कीमत बढ़ सकती है",
-        "product_name": "DIVJOT'S Pain Relief",
+        "product_name": "DIVJOT Pain Relief",
         "product_description": "100% आयुर्वेदिक से 7 दिन में दर्द से मुक्ति",
         "price": 3150,
         "discount_percentage": 70,
@@ -200,7 +200,7 @@
         "faq_1": {
           "type": "faq",
           "settings": {
-            "question": "क्या DIVJOT'S Pain Relief सुरक्षित है?",
+            "question": "क्या DIVJOT Pain Relief सुरक्षित है?",
             "answer": "हां, यह 100% आयुर्वेदिक है और इसका कोई साइड इफेक्ट नहीं है।"
           }
         },

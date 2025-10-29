@@ -27,7 +27,7 @@
     "inputs_shadow_horizontal_offset": 0,
     "inputs_shadow_vertical_offset": 4,
     "inputs_shadow_blur": 5,
-    "product_name": "DIVJOT'S Pain Relief",
+    "product_name": "DIVJOT Pain Relief",
     "product_price": 3150,
     "product_description": "100% आयुर्वेदिक जोड़ों के दर्द की दवा",
     "crm_api_url": "https://projects.erpthemes.com/api/dynamic/addRecordsDynamic?tempID=72&tempName=website_api_",
@@ -63,7 +63,7 @@
         "type": "hero-section",
         "settings": {
           "hero_title": "जोड़ों के दर्द से पाएं स्थायी राहत",
-          "hero_subtitle": "100% आयुर्वेदिक DIVJOT'S Pain Relief",
+          "hero_subtitle": "100% आयुर्वेदिक DIVJOT Pain Relief",
           "hero_benefit": "7 दिन में दर्द से मुक्ति",
           "hero_price": 3150,
           "price_description": "180 टैबलेट (3 महीने का कोर्स)",

@@ -79,7 +79,7 @@ Before deploying, ensure:
 After deployment, configure these settings in Shopify admin:
 
 ### Product Settings
-- Product Name: "DIVJOT'S Pain Relief"
+- Product Name: "DIVJOT Pain Relief"
 - Product Price: ₹3,150
 - Product Description: "100% आयुर्वेदिक जोड़ों के दर्द की दवा"
 

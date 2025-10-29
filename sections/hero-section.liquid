@@ -6,14 +6,14 @@
   <div class="container">
     <div class="hero-content">
       <h1 class="hero-title">{{ settings.product_name | default: 'जोड़ों के दर्द से पाएं स्थायी राहत' }}</h1>
-      <p class="hero-subtitle">{{ settings.product_description | default: '100% आयुर्वेदिक DIVJOT\'S Pain Relief' }}</p>
+      <p class="hero-subtitle">{{ settings.product_description | default: "100% आयुर्वेदिक DIVJOT Pain Relief" }}</p>
       <p class="hero-benefit">7 दिन में दर्द से मुक्ति</p>
       
       <div class="product-image">
         {% if settings.product_image %}
           <img src="{{ settings.product_image | img_url: '400x400' }}" alt="{{ settings.product_name }}" loading="lazy">
         {% else %}
-          <img src="{{ 'divjot-product.jpg' | asset_url }}" alt="DIVJOT'S Pain Relief" loading="lazy">
+          <img src="{{ 'divjot-product.jpg' | asset_url }}" alt="DIVJOT Pain Relief" loading="lazy">
         {% endif %}
       </div>
       
@@ -100,7 +100,7 @@
       "type": "text",
       "id": "hero_subtitle",
       "label": "Hero Subtitle",
-      "default": "100% आयुर्वेदिक DIVJOT'S Pain Relief"
+      "default": "100% आयुर्वेदिक DIVJOT Pain Relief"
     },
     {
       "type": "text",

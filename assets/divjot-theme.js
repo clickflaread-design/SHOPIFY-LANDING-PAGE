@@ -1,4 +1,4 @@
-// DIVJOT's Pain Relief Theme JavaScript
+// DIVJOT Pain Relief Theme JavaScript
 
 // Debug mode - set to false for production
 const DEBUG_MODE = false;

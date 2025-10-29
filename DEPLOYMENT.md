@@ -55,7 +55,7 @@
 Go to **Customize Theme** and configure:
 
 - **Product Settings:**
-  - Product Name: "DIVJOT'S Pain Relief"
+  - Product Name: "DIVJOT Pain Relief"
   - Product Price: 3150
   - Product Description: "100% आयुर्वेदिक जोड़ों के दर्द की दवा"
 
