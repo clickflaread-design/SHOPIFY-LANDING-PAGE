@@ -84,8 +84,8 @@
               <div class="package-info">{{ section.settings.package_info | default: "180 टैबलेट (3 महीने का कोर्स)" }}</div>
             </div>
 
-            <button type="submit" class="submit-btn" id="submitBtn">
-              <span class="btn-text">🛒 अभी ऑर्डर करें - ₹{{ section.settings.discounted_price | default: 3150 }}</span>
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+              <span class="btn-text">कृपया सभी फील्ड भरें</span>
               <span class="btn-loading" style="display: none;">ऑर्डर प्रोसेस हो रहा है...</span>
             </button>
 
@@ -367,6 +367,29 @@
 
 .submit-btn:hover::before {
   left: 100%;
+}
+
+.submit-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
+.submit-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.submit-btn:disabled::before {
+  display: none;
+}
+
+.submit-btn.enabled {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  cursor: pointer;
+  opacity: 1;
 }
 
 .form-guarantees {

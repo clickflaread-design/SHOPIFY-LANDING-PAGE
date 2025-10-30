@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeEnhancedFormValidation();
   trackUserBehavior();
   initABTesting();
-  initWhatsAppIntegration();
+  // WhatsApp integration removed
   initializeFacebookPixel();
   initializeAutoPopup();
   initializeCarousel();
@@ -845,26 +845,7 @@ function initABTesting() {
   return variant;
 }
 
-// WhatsApp Integration
-function initWhatsAppIntegration() {
-  // Add WhatsApp floating button
-  const whatsappBtn = document.createElement("div");
-  whatsappBtn.className = "whatsapp-float";
-  whatsappBtn.innerHTML = `
-    <a href="https://wa.me/919876543210?text=मुझे%20DIVJOT%20Pain%20Relief%20के%20बारे%20में%20जानकारी%20चाहिए" target="_blank">
-      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMyNUQzNjYiLz4KPHBhdGggZD0iTTMwLjUgMTkuNUMzMC41IDI1LjU3NCAyNS41NzQgMzAuNSAxOS41IDMwLjVDMTcuNTEgMzAuNSAxNS42MzggMjkuOTI2IDE0LjA1IDI4Ljk1TDkuNSAzMC41TDExLjA1IDI2LjA1QzEwLjA3NCAyNC40NjIgOS41IDIyLjU5IDkuNSAxOS41QzkuNSAxMy40MjYgMTQuNDI2IDguNSAyMC41IDguNUMyNi41NzQgOC41IDMxLjUgMTMuNDI2IDMxLjUgMTkuNVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=" alt="WhatsApp">
-    </a>
-  `;
-
-  document.body.appendChild(whatsappBtn);
-
-  // Track WhatsApp clicks
-  whatsappBtn.addEventListener("click", function () {
-    trackEvent("whatsapp_click", {
-      source: "floating_button",
-    });
-  });
-}
+// WhatsApp Integration - REMOVED
 
 // Utility Functions
 function formatPhoneNumber(phone) {
@@ -980,42 +961,7 @@ function initMobileStickyCTA() {
   }
 }
 
-// Enhanced WhatsApp Integration
-function initWhatsAppIntegration() {
-  const whatsappNumber =
-    document.querySelector("[data-whatsapp-number]")?.dataset.whatsappNumber ||
-    "919876543210";
-  const whatsappMessage =
-    document.querySelector("[data-whatsapp-message]")?.dataset
-      .whatsappMessage || "मुझे DIVJOT Pain Relief के बारे में जानकारी चाहिए";
-
-  const whatsappBtn = document.createElement("div");
-  whatsappBtn.className = "whatsapp-float";
-  whatsappBtn.innerHTML = `
-    <a href="https://wa.me/${whatsappNumber}?text=${
-    encodeURIComponent(whatsappMessage)
-  }" target="_blank" rel="noopener">
-      <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.5 0C7.85 0 0 7.85 0 17.5C0 20.65 0.875 23.625 2.45 26.25L0 35L9.1 32.725C11.55 34.125 14.425 35 17.5 35C27.15 35 35 27.15 35 17.5C35 7.85 27.15 0 17.5 0ZM28 24.5C27.65 25.55 26.2 26.425 25.025 26.775C24.15 27.025 23.025 27.25 18.9 25.375C13.825 23.1 10.675 17.85 10.425 17.5C10.2 17.15 8.4 14.7 8.4 12.175C8.4 9.65 9.65 8.4 10.15 7.875C10.65 7.35 11.2 7.175 11.55 7.175C11.725 7.175 11.875 7.175 12 7.2C12.5 7.225 12.775 7.275 13.075 8.025C13.425 8.875 14.25 11.4 14.35 11.6C14.45 11.8 14.55 12.075 14.4 12.425C14.25 12.8 14.125 12.95 13.875 13.25C13.625 13.55 13.4 13.775 13.15 14.1C12.925 14.375 12.675 14.675 12.975 15.225C13.275 15.75 14.225 17.325 15.675 18.6C17.525 20.225 19.075 20.8 19.625 21.05C20.175 21.3 20.475 21.25 20.775 20.925C21.075 20.6 21.875 19.7 22.225 19.175C22.575 18.65 22.925 18.725 23.425 18.925C23.925 19.125 26.425 20.35 26.975 20.625C27.525 20.9 27.875 21.025 27.975 21.25C28.075 21.475 28.075 22.325 27.725 23.325L28 24.5Z" fill="white"/>
-      </svg>
-    </a>
-  `;
-
-  document.body.appendChild(whatsappBtn);
-
-  // Track WhatsApp clicks
-  whatsappBtn.addEventListener("click", function () {
-    trackEvent("whatsapp_click", {
-      source: "floating_button",
-      number: whatsappNumber,
-    });
-
-    // Facebook Pixel tracking
-    if (typeof fbq !== "undefined") {
-      fbq("track", "Contact");
-    }
-  });
-}
+// Enhanced WhatsApp Integration - REMOVED
 
 // Mobile Form Enhancements
 function enhanceMobileForms() {
@@ -1853,11 +1799,20 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add lead form validation
   const leadForm = document.getElementById('leadForm');
   if (leadForm) {
+    const leadInputs = leadForm.querySelectorAll('input[required], textarea[required]');
+    const leadSubmitBtn = document.getElementById('submitBtn');
+    
+    // Initially disable button
+    if (leadSubmitBtn) {
+      leadSubmitBtn.disabled = true;
+      leadSubmitBtn.classList.remove('enabled');
+    }
+    
     // Add real-time validation
-    const leadInputs = leadForm.querySelectorAll('input, textarea');
     leadInputs.forEach(input => {
       input.addEventListener('blur', function() {
         validateLeadField(this);
+        checkLeadFormValidity();
       });
       
       input.addEventListener('input', function() {
@@ -1865,6 +1820,7 @@ document.addEventListener('DOMContentLoaded', function() {
         this.classList.remove('invalid', 'error');
         const errorSpan = document.getElementById(this.name + 'Error');
         if (errorSpan) errorSpan.textContent = '';
+        checkLeadFormValidity();
       });
       
       // Track field interactions
@@ -1875,6 +1831,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }, { once: true });
     });
+    
+    function checkLeadFormValidity() {
+      let allValid = true;
+      let allFilled = true;
+      
+      leadInputs.forEach(input => {
+        const value = input.value.trim();
+        
+        if (!value) {
+          allFilled = false;
+          allValid = false;
+          return;
+        }
+        
+        // Check if field has validation errors
+        if (input.classList.contains('invalid') || input.classList.contains('error')) {
+          allValid = false;
+        }
+        
+        // Additional validation
+        if (input.name === 'phone' && !/^[6-9]\d{9}$/.test(value)) {
+          allValid = false;
+        }
+        
+        if (input.name === 'name' && (value.length < 2 || !/^[a-zA-Zअ-ह\s]+$/.test(value))) {
+          allValid = false;
+        }
+        
+        if (input.name === 'address' && value.length < 10) {
+          allValid = false;
+        }
+      });
+      
+      // Enable/disable button
+      if (leadSubmitBtn) {
+        if (allValid && allFilled) {
+          leadSubmitBtn.disabled = false;
+          leadSubmitBtn.classList.add('enabled');
+          leadSubmitBtn.querySelector('.btn-text').textContent = '🛒 अभी ऑर्डर करें - ₹3150';
+        } else {
+          leadSubmitBtn.disabled = true;
+          leadSubmitBtn.classList.remove('enabled');
+          if (!allFilled) {
+            leadSubmitBtn.querySelector('.btn-text').textContent = 'कृपया सभी फील्ड भरें';
+          } else {
+            leadSubmitBtn.querySelector('.btn-text').textContent = 'कृपया सही जानकारी दर्ज करें';
+          }
+        }
+      }
+    }
   }
 });
 

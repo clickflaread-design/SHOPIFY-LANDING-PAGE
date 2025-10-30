@@ -26,8 +26,8 @@
         <span class="mobile-savings">₹7,350 बचत!</span>
       </div>
       
-      <button type="submit" class="mobile-submit-btn">
-        <span class="mobile-btn-text">🛒 अभी ऑर्डर करें</span>
+      <button type="submit" class="mobile-submit-btn" id="mobileSubmitBtn" disabled>
+        <span class="mobile-btn-text">कृपया सभी फील्ड भरें</span>
         <span class="mobile-btn-loading" style="display: none;">प्रोसेसिंग...</span>
       </button>
       
@@ -221,6 +221,29 @@
   left: 100%;
 }
 
+.mobile-submit-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
+.mobile-submit-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.mobile-submit-btn:disabled::before {
+  display: none;
+}
+
+.mobile-submit-btn.enabled {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  cursor: pointer;
+  opacity: 1;
+}
+
 .mobile-guarantees {
   display: flex;
   justify-content: space-between;
@@ -362,6 +385,74 @@ function initializeMobileLeadForm() {
   // Update mobile timer
   updateMobileTimer();
   mobileFormTimer = setInterval(updateMobileTimer, 1000);
+  
+  // Add validation to mobile form
+  const mobileFormElement = document.getElementById('mobileLead');
+  if (mobileFormElement) {
+    const mobileInputs = mobileFormElement.querySelectorAll('input[required], textarea[required]');
+    const mobileSubmitBtn = document.getElementById('mobileSubmitBtn');
+    
+    // Initially disable button
+    if (mobileSubmitBtn) {
+      mobileSubmitBtn.disabled = true;
+      mobileSubmitBtn.classList.remove('enabled');
+    }
+    
+    mobileInputs.forEach(input => {
+      input.addEventListener('input', function() {
+        validateMobileForm();
+      });
+      
+      input.addEventListener('blur', function() {
+        validateMobileForm();
+      });
+    });
+    
+    function validateMobileForm() {
+      let allValid = true;
+      let allFilled = true;
+      
+      mobileInputs.forEach(input => {
+        const value = input.value.trim();
+        
+        if (!value) {
+          allFilled = false;
+          allValid = false;
+          return;
+        }
+        
+        // Validate specific fields
+        if (input.name === 'phone' && !/^[6-9]\d{9}$/.test(value)) {
+          allValid = false;
+        }
+        
+        if (input.name === 'name' && (value.length < 2 || !/^[a-zA-Zअ-ह\s]+$/.test(value))) {
+          allValid = false;
+        }
+        
+        if (input.name === 'address' && value.length < 10) {
+          allValid = false;
+        }
+      });
+      
+      // Enable/disable button
+      if (mobileSubmitBtn) {
+        if (allValid && allFilled) {
+          mobileSubmitBtn.disabled = false;
+          mobileSubmitBtn.classList.add('enabled');
+          mobileSubmitBtn.querySelector('.mobile-btn-text').textContent = '🛒 अभी ऑर्डर करें';
+        } else {
+          mobileSubmitBtn.disabled = true;
+          mobileSubmitBtn.classList.remove('enabled');
+          if (!allFilled) {
+            mobileSubmitBtn.querySelector('.mobile-btn-text').textContent = 'कृपया सभी फील्ड भरें';
+          } else {
+            mobileSubmitBtn.querySelector('.mobile-btn-text').textContent = 'कृपया सही जानकारी दर्ज करें';
+          }
+        }
+      }
+    }
+  }
 }
 
 function showMobileForm() {
