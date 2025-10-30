@@ -569,18 +569,7 @@ async function submitMobileLeadForm(event) {
       });
     }
 
-    // Enhanced Facebook Pixel - Lead submission
-    if (typeof fbq !== 'undefined') {
-      fbq('track', 'Lead', {
-        content_name: 'DIVJOT Pain Relief Mobile Form Submission',
-        content_category: 'Mobile Lead Generation',
-        content_type: 'product',
-        value: 3150,
-        currency: 'INR',
-        content_ids: ['divjot-pain-relief'],
-        predicted_ltv: 3150
-      });
-    }
+    // Mobile lead tracking is handled by trackEvent below - no duplicate needed
 
     // Submit to CRM
     const success = await submitLeadToCRM(leadData);
@@ -595,29 +584,7 @@ async function submitMobileLeadForm(event) {
         });
       }
 
-      // Enhanced Facebook Pixel Purchase
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'Purchase', {
-          content_name: 'DIVJOT Pain Relief Mobile Conversion',
-          content_category: 'Mobile Commerce',
-          content_type: 'product',
-          value: 3150,
-          currency: 'INR',
-          content_ids: ['divjot-pain-relief'],
-          num_items: 1,
-          predicted_ltv: 3150,
-          custom_parameter: 'mobile_conversion'
-        });
-
-        // Track as CompleteRegistration for mobile funnel
-        fbq('track', 'CompleteRegistration', {
-          content_name: 'DIVJOT Pain Relief Mobile Registration',
-          content_category: 'Mobile Lead Generation',
-          value: 3150,
-          currency: 'INR',
-          status: 'completed'
-        });
-      }
+      // Mobile lead conversion tracking is handled by trackEvent - no duplicate needed
 
       // Show success message
       alert('🎉 ऑर्डर सफल! हमारी टीम जल्द ही आपसे संपर्क करेगी।');

@@ -667,29 +667,35 @@ function trackEvent(eventName, eventData = {}) {
         case "order_submitted":
         case "lead_generated":
         case "mobile_conversion":
-          fbq("track", "Purchase", {
-            content_name: "DIVJOT Pain Relief",
-            content_category: "Health & Wellness",
-            content_type: "product",
+          fbq("track", "Lead", {
+            content_name: "DIVJOT Pain Relief Lead Generated",
+            content_category: "Lead Generation",
+            content_type: "lead",
             value: 3150,
             currency: "INR",
-            content_ids: ["divjot-pain-relief"],
-            num_items: 1,
-            predicted_ltv: 3150
+            content_ids: ["divjot-pain-relief"]
           });
           break;
 
         case "form_field_focused":
         case "lead_form_field_focused":
+          // Only track first field focus, not every field
+          if (!window.leadFormInteractionTracked) {
+            fbq("track", "Lead", {
+              content_name: "DIVJOT Pain Relief Form Started",
+              content_category: "Lead Generation",
+              content_type: "lead",
+              value: 3150,
+              currency: "INR",
+              content_ids: ["divjot-pain-relief"]
+            });
+            window.leadFormInteractionTracked = true;
+          }
+          break;
+
         case "lead_form_submitted":
         case "mobile_form_submitted":
-          fbq("track", "Lead", {
-            content_name: "DIVJOT Pain Relief Form Interaction",
-            content_category: "Health & Wellness",
-            value: 3150,
-            currency: "INR",
-            content_ids: ["divjot-pain-relief"]
-          });
+          // These are handled by the specific submission functions
           break;
 
         case "cta_click":
@@ -733,14 +739,13 @@ function trackEvent(eventName, eventData = {}) {
           break;
 
         case "conversion":
-          fbq("track", "Purchase", {
-            content_name: "DIVJOT Pain Relief Conversion",
-            content_category: "Health & Wellness",
-            content_type: "product",
+          fbq("track", "Lead", {
+            content_name: "DIVJOT Pain Relief Lead Conversion",
+            content_category: "Lead Generation",
+            content_type: "lead",
             value: eventData.value || 3150,
             currency: "INR",
-            content_ids: ["divjot-pain-relief"],
-            num_items: 1
+            content_ids: ["divjot-pain-relief"]
           });
           break;
 
@@ -832,13 +837,13 @@ function trackConversion(conversionType, value = 3150) {
     });
   }
 
-  // Facebook Conversion API (if configured)
+  // Facebook Lead Conversion tracking
   if (typeof fbq !== "undefined") {
-    fbq("track", "Purchase", {
+    fbq("track", "Lead", {
       value: value,
       currency: "INR",
-      content_name: "DIVJOT Pain Relief",
-      content_type: "product",
+      content_name: "DIVJOT Pain Relief Lead",
+      content_type: "lead",
     });
   }
 
@@ -1197,26 +1202,7 @@ async function handleFormSubmission(event) {
       // Track successful conversion
       trackConversion("order_completed", 3150);
 
-      // Enhanced Facebook Pixel Purchase Event
-      if (typeof fbq !== "undefined") {
-        fbq("track", "Purchase", {
-          value: 3150,
-          currency: "INR",
-          content_name: "DIVJOT Pain Relief",
-          content_type: "product",
-          content_ids: ["divjot-pain-relief"],
-          num_items: 1,
-          predicted_ltv: 3150,
-          content_category: "Health",
-        });
-
-        // Also track as CompleteRegistration for lead tracking
-        fbq("track", "CompleteRegistration", {
-          content_name: "DIVJOT Pain Relief Order",
-          value: 3150,
-          currency: "INR",
-        });
-      }
+      // Lead conversion tracking is handled by trackEvent - no duplicate needed
 
       // Submit to additional webhook if configured
       const webhookUrl = document.querySelector("[data-webhook-url]")?.dataset
@@ -1678,18 +1664,7 @@ async function submitLeadForm(event) {
       form_type: "lead_form",
     });
 
-    // Enhanced Facebook Pixel - Lead event
-    if (typeof fbq !== "undefined") {
-      fbq("track", "Lead", {
-        content_name: "DIVJOT Pain Relief Lead Form Submission",
-        content_category: "Health & Wellness",
-        content_type: "product",
-        value: 3150,
-        currency: "INR",
-        content_ids: ["divjot-pain-relief"],
-        predicted_ltv: 3150
-      });
-    }
+    // Lead tracking is handled by trackEvent below - no duplicate needed
 
     // Submit to CRM
     const success = await submitLeadToCRM(leadData);
@@ -1702,29 +1677,7 @@ async function submitLeadForm(event) {
         source: "lead_form",
       });
 
-      // Enhanced Facebook Pixel - Purchase event for successful leads
-      if (typeof fbq !== "undefined") {
-        fbq("track", "Purchase", {
-          content_name: "DIVJOT Pain Relief Lead Conversion",
-          content_category: "Health & Wellness",
-          content_type: "product",
-          value: 3150,
-          currency: "INR",
-          content_ids: ["divjot-pain-relief"],
-          num_items: 1,
-          predicted_ltv: 3150,
-          custom_parameter: "lead_form_success"
-        });
-
-        // Also track as CompleteRegistration for lead funnel tracking
-        fbq("track", "CompleteRegistration", {
-          content_name: "DIVJOT Pain Relief Registration",
-          content_category: "Health & Wellness",
-          value: 3150,
-          currency: "INR",
-          status: "completed"
-        });
-      }
+      // Lead conversion is already tracked by trackEvent above - no duplicate needed
 
       // Show success message
       showLeadFormSuccess();
@@ -2131,41 +2084,22 @@ document.head.appendChild(leadFormStyles);
 
 // Meta Pixel Lead Form Interaction Tracking
 function trackLeadFormInteraction(interaction) {
-  if (typeof fbq !== 'undefined') {
-    switch(interaction) {
-      case 'name_field_focus':
-        fbq('track', 'Lead', {
-          content_name: 'DIVJOT Pain Relief Name Field Focus',
-          content_category: 'Form Interaction',
-          value: 3150,
-          currency: 'INR',
-          custom_parameter: 'name_field_focus'
-        });
-        break;
-      
-      case 'phone_field_focus':
-        fbq('track', 'Lead', {
-          content_name: 'DIVJOT Pain Relief Phone Field Focus',
-          content_category: 'Form Interaction',
-          value: 3150,
-          currency: 'INR',
-          custom_parameter: 'phone_field_focus'
-        });
-        break;
-      
-      case 'address_field_focus':
-        fbq('track', 'Lead', {
-          content_name: 'DIVJOT Pain Relief Address Field Focus',
-          content_category: 'Form Interaction',
-          value: 3150,
-          currency: 'INR',
-          custom_parameter: 'address_field_focus'
-        });
-        break;
+  // Only track the first field focus to avoid multiple Lead events
+  if (!window.leadFormStarted) {
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', {
+        content_name: 'DIVJOT Pain Relief Form Started',
+        content_category: 'Lead Generation',
+        content_type: 'lead',
+        value: 3150,
+        currency: 'INR',
+        content_ids: ['divjot-pain-relief']
+      });
     }
+    window.leadFormStarted = true;
   }
   
-  // Also track with custom event system
+  // Track with custom event system for internal analytics
   trackEvent('lead_form_field_interaction', {
     interaction: interaction,
     timestamp: new Date().toISOString()
@@ -2175,16 +2109,14 @@ function trackLeadFormInteraction(interaction) {
 // Enhanced Meta Pixel Conversion Tracking
 function trackMetaPixelConversion(conversionType, value = 3150, additionalData = {}) {
   if (typeof fbq !== 'undefined') {
-    // Track Purchase event
-    fbq('track', 'Purchase', {
+    // Track Lead event for conversions
+    fbq('track', 'Lead', {
       content_name: `DIVJOT Pain Relief ${conversionType}`,
-      content_category: 'Health & Wellness',
-      content_type: 'product',
+      content_category: 'Lead Generation',
+      content_type: 'lead',
       value: value,
       currency: 'INR',
       content_ids: ['divjot-pain-relief'],
-      num_items: 1,
-      predicted_ltv: value,
       ...additionalData
     });
 
@@ -2195,16 +2127,6 @@ function trackMetaPixelConversion(conversionType, value = 3150, additionalData =
       value: value,
       currency: 'INR',
       status: 'completed',
-      ...additionalData
-    });
-
-    // Track custom conversion event
-    fbq('trackCustom', 'DIVJOTConversion', {
-      conversion_type: conversionType,
-      product_name: 'DIVJOT Pain Relief',
-      value: value,
-      currency: 'INR',
-      timestamp: new Date().toISOString(),
       ...additionalData
     });
   }
