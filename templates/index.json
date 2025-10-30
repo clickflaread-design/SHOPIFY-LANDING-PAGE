@@ -22,6 +22,19 @@
         "timer_minutes": 47
       }
     },
+    "problem_solution": {
+      "type": "problem-solution",
+      "settings": {
+        "problem_heading": "जोड़ों का दर्द आपकी जिंदगी बर्बाद कर रहा है?",
+        "problem_description": "हर दिन बढ़ता दर्द, रात भर जागना, दवाइयों का कोई असर नहीं। क्या आप भी इस समस्या से परेशान हैं?",
+        "solution_heading": "DIVJOT से पाएं स्थायी समाधान!",
+        "solution_description": "100% आयुर्वेदिक DIVJOT Pain Relief से सिर्फ 7 दिन में दर्द से छुटकारा पाएं।",
+        "show_problem_points": true,
+        "show_solution_points": true,
+        "show_cta": true,
+        "cta_text": "अभी ऑर्डर करें - ₹3,150"
+      }
+    },
     "benefits": {
       "type": "benefits-section",
       "blocks": {
@@ -257,6 +270,7 @@
   "order": [
     "announcement_bar",
     "hero",
+    "problem_solution",
     "benefits",
     "testimonials",
     "how_it_works",

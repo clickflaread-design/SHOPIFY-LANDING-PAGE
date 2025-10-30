@@ -1,0 +1,334 @@
+{{ 'section-problem-solution.css' | asset_url | stylesheet_tag }}
+
+<div class="problem-solution-section color-{{ section.settings.color_scheme }}"
+     id="ProblemSolution-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    <div class="problem-solution-grid">
+      <!-- Problem Side -->
+      <div class="problem-side">
+        {%- if section.settings.problem_heading != blank -%}
+          <h2 class="problem-heading">{{ section.settings.problem_heading }}</h2>
+        {%- endif -%}
+        
+        {%- if section.settings.problem_description != blank -%}
+          <p class="problem-description">{{ section.settings.problem_description }}</p>
+        {%- endif -%}
+        
+        <div class="problem-image">
+          {% if section.settings.problem_image %}
+            <img src="{{ section.settings.problem_image | img_url: '500x500' }}" alt="Joint Pain Problem" loading="lazy">
+          {% else %}
+            <img src="{{ 'knee-pain.png' | asset_url }}" alt="Knee Pain Problem" loading="lazy">
+          {% endif %}
+        </div>
+        
+        {%- if section.settings.show_problem_points -%}
+          <div class="problem-points">
+            <div class="problem-point">
+              <span class="problem-icon">❌</span>
+              <span>दर्द की वजह से चलना-फिरना मुश्किल</span>
+            </div>
+            <div class="problem-point">
+              <span class="problem-icon">❌</span>
+              <span>रात में नींद नहीं आती</span>
+            </div>
+            <div class="problem-point">
+              <span class="problem-icon">❌</span>
+              <span>दवाइयों से कोई फायदा नहीं</span>
+            </div>
+            <div class="problem-point">
+              <span class="problem-icon">❌</span>
+              <span>दैनिक कार्य करने में परेशानी</span>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+      
+      <!-- Solution Side -->
+      <div class="solution-side">
+        {%- if section.settings.solution_heading != blank -%}
+          <h2 class="solution-heading">{{ section.settings.solution_heading }}</h2>
+        {%- endif -%}
+        
+        {%- if section.settings.solution_description != blank -%}
+          <p class="solution-description">{{ section.settings.solution_description }}</p>
+        {%- endif -%}
+        
+        <div class="solution-image">
+          {% if section.settings.solution_image %}
+            <img src="{{ section.settings.solution_image | img_url: '300x300' }}" alt="DIVJOT Solution" loading="lazy">
+          {% else %}
+            <img src="{{ 'product.png' | asset_url }}" alt="DIVJOT Pain Relief Solution" loading="lazy">
+          {% endif %}
+        </div>
+        
+        {%- if section.settings.show_solution_points -%}
+          <div class="solution-points">
+            <div class="solution-point">
+              <span class="solution-icon">✅</span>
+              <span>7 दिन में दर्द से राहत</span>
+            </div>
+            <div class="solution-point">
+              <span class="solution-icon">✅</span>
+              <span>100% आयुर्वेदिक और सुरक्षित</span>
+            </div>
+            <div class="solution-point">
+              <span class="solution-icon">✅</span>
+              <span>कोई साइड इफेक्ट नहीं</span>
+            </div>
+            <div class="solution-point">
+              <span class="solution-icon">✅</span>
+              <span>डॉक्टर द्वारा अप्रूव्ड</span>
+            </div>
+          </div>
+        {%- endif -%}
+        
+        {%- if section.settings.show_cta -%}
+          <div class="solution-cta">
+            <button class="button button--primary" onclick="openOrderModal()">
+              {{ section.settings.cta_text | default: "अभी ऑर्डर करें - ₹3,150" }}
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.problem-solution-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.problem-solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.problem-side {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #ffebee, #ffcdd2);
+  border-radius: 20px;
+  border: 2px solid #f44336;
+  box-shadow: 0 10px 30px rgba(244, 67, 54, 0.1);
+}
+
+.solution-side {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+  border-radius: 20px;
+  border: 2px solid #4caf50;
+  box-shadow: 0 10px 30px rgba(76, 175, 80, 0.1);
+}
+
+.problem-heading {
+  font-size: 2rem;
+  color: #d32f2f;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.solution-heading {
+  font-size: 2rem;
+  color: #2e7d32;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.problem-description,
+.solution-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.problem-image,
+.solution-image {
+  margin: 25px 0;
+}
+
+.problem-image img,
+.solution-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.problem-points,
+.solution-points {
+  text-align: left;
+  margin: 25px 0;
+}
+
+.problem-point,
+.solution-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.problem-icon {
+  font-size: 1.2rem;
+  color: #f44336;
+}
+
+.solution-icon {
+  font-size: 1.2rem;
+  color: #4caf50;
+}
+
+.solution-cta {
+  margin-top: 30px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .problem-solution-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .problem-side,
+  .solution-side {
+    padding: 20px;
+  }
+  
+  .problem-heading,
+  .solution-heading {
+    font-size: 1.6rem;
+  }
+  
+  .problem-description,
+  .solution-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .problem-heading,
+  .solution-heading {
+    font-size: 1.4rem;
+  }
+  
+  .problem-point,
+  .solution-point {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Problem Solution",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Problem Section"
+    },
+    {
+      "type": "text",
+      "id": "problem_heading",
+      "default": "जोड़ों का दर्द आपकी जिंदगी बर्बाद कर रहा है?",
+      "label": "Problem heading"
+    },
+    {
+      "type": "textarea",
+      "id": "problem_description",
+      "default": "हर दिन बढ़ता दर्द, रात भर जागना, दवाइयों का कोई असर नहीं। क्या आप भी इस समस्या से परेशान हैं?",
+      "label": "Problem description"
+    },
+    {
+      "type": "image_picker",
+      "id": "problem_image",
+      "label": "Problem image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_problem_points",
+      "default": true,
+      "label": "Show problem points"
+    },
+    {
+      "type": "header",
+      "content": "Solution Section"
+    },
+    {
+      "type": "text",
+      "id": "solution_heading",
+      "default": "DIVJOT से पाएं स्थायी समाधान!",
+      "label": "Solution heading"
+    },
+    {
+      "type": "textarea",
+      "id": "solution_description",
+      "default": "100% आयुर्वेदिक DIVJOT Pain Relief से सिर्फ 7 दिन में दर्द से छुटकारा पाएं।",
+      "label": "Solution description"
+    },
+    {
+      "type": "image_picker",
+      "id": "solution_image",
+      "label": "Solution image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_solution_points",
+      "default": true,
+      "label": "Show solution points"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "default": true,
+      "label": "Show call-to-action button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "default": "अभी ऑर्डर करें - ₹3,150",
+      "label": "CTA button text"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "background-1",
+      "label": "Color scheme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Problem Solution"
+    }
+  ]
+}
+{% endschema %}
