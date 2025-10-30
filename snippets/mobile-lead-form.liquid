@@ -474,13 +474,16 @@ function showMobileForm() {
       });
     }
 
-    // Facebook Pixel
+    // Enhanced Facebook Pixel
     if (typeof fbq !== 'undefined') {
       fbq('track', 'ViewContent', {
-        content_name: 'Mobile Lead Form',
-        content_category: 'Form',
+        content_name: 'DIVJOT Pain Relief Mobile Form',
+        content_category: 'Mobile Engagement',
+        content_type: 'product',
         value: 3150,
-        currency: 'INR'
+        currency: 'INR',
+        content_ids: ['divjot-pain-relief'],
+        custom_parameter: 'mobile_form_shown'
       });
     }
   }
@@ -566,13 +569,16 @@ async function submitMobileLeadForm(event) {
       });
     }
 
-    // Facebook Pixel
+    // Enhanced Facebook Pixel - Lead submission
     if (typeof fbq !== 'undefined') {
       fbq('track', 'Lead', {
-        content_name: 'Mobile Lead Form Submission',
-        content_category: 'Form',
+        content_name: 'DIVJOT Pain Relief Mobile Form Submission',
+        content_category: 'Mobile Lead Generation',
+        content_type: 'product',
         value: 3150,
-        currency: 'INR'
+        currency: 'INR',
+        content_ids: ['divjot-pain-relief'],
+        predicted_ltv: 3150
       });
     }
 
@@ -589,12 +595,27 @@ async function submitMobileLeadForm(event) {
         });
       }
 
-      // Facebook Pixel Purchase
+      // Enhanced Facebook Pixel Purchase
       if (typeof fbq !== 'undefined') {
         fbq('track', 'Purchase', {
-          content_name: 'DIVJOT Pain Relief Mobile',
+          content_name: 'DIVJOT Pain Relief Mobile Conversion',
+          content_category: 'Mobile Commerce',
+          content_type: 'product',
           value: 3150,
-          currency: 'INR'
+          currency: 'INR',
+          content_ids: ['divjot-pain-relief'],
+          num_items: 1,
+          predicted_ltv: 3150,
+          custom_parameter: 'mobile_conversion'
+        });
+
+        // Track as CompleteRegistration for mobile funnel
+        fbq('track', 'CompleteRegistration', {
+          content_name: 'DIVJOT Pain Relief Mobile Registration',
+          content_category: 'Mobile Lead Generation',
+          value: 3150,
+          currency: 'INR',
+          status: 'completed'
         });
       }
 

@@ -38,7 +38,8 @@
               <input type="text" id="customerName" name="name" required 
                      placeholder="अपना पूरा नाम लिखें" 
                      pattern="[a-zA-Zअ-ह\s]+" 
-                     title="कृपया केवल अक्षर और स्पेस का उपयोग करें">
+                     title="कृपया केवल अक्षर और स्पेस का उपयोग करें"
+                     onfocus="trackLeadFormInteraction('name_field_focus')">
               <span class="error-message" id="nameError"></span>
             </div>
 
@@ -48,7 +49,8 @@
                      placeholder="10 अंकों का मोबाइल नंबर" 
                      pattern="[6-9][0-9]{9}" 
                      maxlength="10"
-                     title="कृपया 10 अंकों का वैध मोबाइल नंबर डालें">
+                     title="कृपया 10 अंकों का वैध मोबाइल नंबर डालें"
+                     onfocus="trackLeadFormInteraction('phone_field_focus')">
               <span class="error-message" id="phoneError"></span>
             </div>
 
@@ -57,7 +59,8 @@
               <textarea id="customerAddress" name="address" required 
                         placeholder="घर का पूरा पता, शहर, राज्य, पिन कोड" 
                         rows="3"
-                        minlength="10"></textarea>
+                        minlength="10"
+                        onfocus="trackLeadFormInteraction('address_field_focus')"></textarea>
               <span class="error-message" id="addressError"></span>
             </div>
 

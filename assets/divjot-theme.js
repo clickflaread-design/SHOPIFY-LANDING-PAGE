@@ -649,48 +649,122 @@ function trackEvent(eventName, eventData = {}) {
       });
     }
 
-    // Facebook Pixel tracking with enhanced events
+    // Enhanced Facebook Pixel tracking with Meta Pixel events
     if (typeof fbq !== "undefined") {
       switch (eventName) {
         case "modal_opened":
           fbq("track", "InitiateCheckout", {
-            content_name: "DIVJOT Pain Relief",
-            content_category: "Health",
+            content_name: "DIVJOT Pain Relief Modal",
+            content_category: "Health & Wellness",
+            content_type: "product",
             value: 3150,
             currency: "INR",
+            content_ids: ["divjot-pain-relief"],
+            num_items: 1
           });
           break;
 
         case "order_submitted":
+        case "lead_generated":
+        case "mobile_conversion":
           fbq("track", "Purchase", {
             content_name: "DIVJOT Pain Relief",
+            content_category: "Health & Wellness",
             content_type: "product",
             value: 3150,
             currency: "INR",
             content_ids: ["divjot-pain-relief"],
             num_items: 1,
+            predicted_ltv: 3150
           });
           break;
 
-        case "form_started":
+        case "form_field_focused":
+        case "lead_form_field_focused":
+        case "lead_form_submitted":
+        case "mobile_form_submitted":
           fbq("track", "Lead", {
-            content_name: "DIVJOT Pain Relief Form",
+            content_name: "DIVJOT Pain Relief Form Interaction",
+            content_category: "Health & Wellness",
             value: 3150,
             currency: "INR",
+            content_ids: ["divjot-pain-relief"]
+          });
+          break;
+
+        case "cta_click":
+          fbq("track", "InitiateCheckout", {
+            content_name: "DIVJOT Pain Relief CTA Click",
+            content_category: "Health & Wellness",
+            value: 3150,
+            currency: "INR",
+            content_ids: ["divjot-pain-relief"]
+          });
+          break;
+
+        case "auto_popup_shown":
+          fbq("track", "ViewContent", {
+            content_name: "DIVJOT Pain Relief Auto Popup",
+            content_category: "Engagement",
+            value: 3150,
+            currency: "INR",
+            custom_parameter: "auto_popup"
+          });
+          break;
+
+        case "mobile_form_shown":
+          fbq("track", "ViewContent", {
+            content_name: "DIVJOT Pain Relief Mobile Form",
+            content_category: "Mobile Engagement",
+            value: 3150,
+            currency: "INR",
+            custom_parameter: "mobile_form"
+          });
+          break;
+
+        case "lead_form_viewed":
+          fbq("track", "ViewContent", {
+            content_name: "DIVJOT Pain Relief Lead Form",
+            content_category: "Form Engagement",
+            value: 3150,
+            currency: "INR",
+            custom_parameter: "lead_form_view"
+          });
+          break;
+
+        case "conversion":
+          fbq("track", "Purchase", {
+            content_name: "DIVJOT Pain Relief Conversion",
+            content_category: "Health & Wellness",
+            content_type: "product",
+            value: eventData.value || 3150,
+            currency: "INR",
+            content_ids: ["divjot-pain-relief"],
+            num_items: 1
           });
           break;
 
         case "add_to_cart":
           fbq("track", "AddToCart", {
             content_name: "DIVJOT Pain Relief",
+            content_category: "Health & Wellness",
             content_type: "product",
             value: 3150,
             currency: "INR",
+            content_ids: ["divjot-pain-relief"],
+            num_items: 1
           });
           break;
 
         default:
-          fbq("trackCustom", eventName, eventData);
+          // Track custom events with enhanced data
+          fbq("trackCustom", eventName, {
+            ...eventData,
+            content_name: eventData.content_name || "DIVJOT Pain Relief",
+            content_category: eventData.content_category || "Health & Wellness",
+            value: eventData.value || 3150,
+            currency: "INR"
+          });
       }
     }
 
@@ -1245,35 +1319,91 @@ window.addEventListener("orientationchange", setVH);
 
 // Facebook Pixel Enhanced Integration
 function initializeFacebookPixel() {
-  // Track page view with enhanced data
-  if (typeof fbq !== "undefined") {
-    fbq("track", "ViewContent", {
-      content_name: "DIVJOT Pain Relief Landing Page",
-      content_category: "Health",
-      content_type: "product",
-      value: 3150,
-      currency: "INR",
-    });
-  }
-
+  // Enhanced page view tracking is already done in theme.liquid
+  
   // Track scroll depth for engagement
-  let scrollTracked = false;
+  let scrollTracked25 = false;
+  let scrollTracked50 = false;
+  let scrollTracked75 = false;
+  
   window.addEventListener("scroll", function () {
     const scrollPercent = Math.round(
-      (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
-        100,
+      (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100,
     );
 
-    if (scrollPercent > 50 && !scrollTracked && typeof fbq !== "undefined") {
+    // Track 25% scroll
+    if (scrollPercent >= 25 && !scrollTracked25 && typeof fbq !== "undefined") {
+      fbq("track", "ViewContent", {
+        content_name: "DIVJOT Pain Relief - 25% Scroll",
+        content_category: "Engagement",
+        value: 3150,
+        currency: "INR",
+        custom_parameter: "scroll_25"
+      });
+      scrollTracked25 = true;
+    }
+
+    // Track 50% scroll
+    if (scrollPercent >= 50 && !scrollTracked50 && typeof fbq !== "undefined") {
       fbq("track", "ViewContent", {
         content_name: "DIVJOT Pain Relief - 50% Scroll",
         content_category: "Engagement",
         value: 3150,
         currency: "INR",
+        custom_parameter: "scroll_50"
       });
-      scrollTracked = true;
+      scrollTracked50 = true;
+    }
+
+    // Track 75% scroll
+    if (scrollPercent >= 75 && !scrollTracked75 && typeof fbq !== "undefined") {
+      fbq("track", "ViewContent", {
+        content_name: "DIVJOT Pain Relief - 75% Scroll",
+        content_category: "Engagement",
+        value: 3150,
+        currency: "INR",
+        custom_parameter: "scroll_75"
+      });
+      scrollTracked75 = true;
     }
   });
+
+  // Track time on page milestones
+  setTimeout(() => {
+    if (typeof fbq !== "undefined") {
+      fbq("track", "ViewContent", {
+        content_name: "DIVJOT Pain Relief - 30s Engagement",
+        content_category: "Time Engagement",
+        value: 3150,
+        currency: "INR",
+        custom_parameter: "time_30s"
+      });
+    }
+  }, 30000);
+
+  setTimeout(() => {
+    if (typeof fbq !== "undefined") {
+      fbq("track", "ViewContent", {
+        content_name: "DIVJOT Pain Relief - 60s Engagement",
+        content_category: "Time Engagement",
+        value: 3150,
+        currency: "INR",
+        custom_parameter: "time_60s"
+      });
+    }
+  }, 60000);
+
+  setTimeout(() => {
+    if (typeof fbq !== "undefined") {
+      fbq("track", "ViewContent", {
+        content_name: "DIVJOT Pain Relief - 120s Engagement",
+        content_category: "Time Engagement",
+        value: 3150,
+        currency: "INR",
+        custom_parameter: "time_120s"
+      });
+    }
+  }, 120000);
 }
 
 // Enhanced CRM Webhook Integration
@@ -1548,13 +1678,16 @@ async function submitLeadForm(event) {
       form_type: "lead_form",
     });
 
-    // Facebook Pixel - Lead event
+    // Enhanced Facebook Pixel - Lead event
     if (typeof fbq !== "undefined") {
       fbq("track", "Lead", {
-        content_name: "DIVJOT Pain Relief Lead Form",
-        content_category: "Health",
+        content_name: "DIVJOT Pain Relief Lead Form Submission",
+        content_category: "Health & Wellness",
+        content_type: "product",
         value: 3150,
         currency: "INR",
+        content_ids: ["divjot-pain-relief"],
+        predicted_ltv: 3150
       });
     }
 
@@ -1569,15 +1702,27 @@ async function submitLeadForm(event) {
         source: "lead_form",
       });
 
-      // Facebook Pixel - Purchase event for high-intent leads
+      // Enhanced Facebook Pixel - Purchase event for successful leads
       if (typeof fbq !== "undefined") {
         fbq("track", "Purchase", {
-          content_name: "DIVJOT Pain Relief",
+          content_name: "DIVJOT Pain Relief Lead Conversion",
+          content_category: "Health & Wellness",
           content_type: "product",
           value: 3150,
           currency: "INR",
           content_ids: ["divjot-pain-relief"],
           num_items: 1,
+          predicted_ltv: 3150,
+          custom_parameter: "lead_form_success"
+        });
+
+        // Also track as CompleteRegistration for lead funnel tracking
+        fbq("track", "CompleteRegistration", {
+          content_name: "DIVJOT Pain Relief Registration",
+          content_category: "Health & Wellness",
+          value: 3150,
+          currency: "INR",
+          status: "completed"
         });
       }
 
@@ -1983,3 +2128,108 @@ leadFormStyles.textContent = `
 `;
 
 document.head.appendChild(leadFormStyles);
+
+// Meta Pixel Lead Form Interaction Tracking
+function trackLeadFormInteraction(interaction) {
+  if (typeof fbq !== 'undefined') {
+    switch(interaction) {
+      case 'name_field_focus':
+        fbq('track', 'Lead', {
+          content_name: 'DIVJOT Pain Relief Name Field Focus',
+          content_category: 'Form Interaction',
+          value: 3150,
+          currency: 'INR',
+          custom_parameter: 'name_field_focus'
+        });
+        break;
+      
+      case 'phone_field_focus':
+        fbq('track', 'Lead', {
+          content_name: 'DIVJOT Pain Relief Phone Field Focus',
+          content_category: 'Form Interaction',
+          value: 3150,
+          currency: 'INR',
+          custom_parameter: 'phone_field_focus'
+        });
+        break;
+      
+      case 'address_field_focus':
+        fbq('track', 'Lead', {
+          content_name: 'DIVJOT Pain Relief Address Field Focus',
+          content_category: 'Form Interaction',
+          value: 3150,
+          currency: 'INR',
+          custom_parameter: 'address_field_focus'
+        });
+        break;
+    }
+  }
+  
+  // Also track with custom event system
+  trackEvent('lead_form_field_interaction', {
+    interaction: interaction,
+    timestamp: new Date().toISOString()
+  });
+}
+
+// Enhanced Meta Pixel Conversion Tracking
+function trackMetaPixelConversion(conversionType, value = 3150, additionalData = {}) {
+  if (typeof fbq !== 'undefined') {
+    // Track Purchase event
+    fbq('track', 'Purchase', {
+      content_name: `DIVJOT Pain Relief ${conversionType}`,
+      content_category: 'Health & Wellness',
+      content_type: 'product',
+      value: value,
+      currency: 'INR',
+      content_ids: ['divjot-pain-relief'],
+      num_items: 1,
+      predicted_ltv: value,
+      ...additionalData
+    });
+
+    // Track CompleteRegistration for lead funnel
+    fbq('track', 'CompleteRegistration', {
+      content_name: `DIVJOT Pain Relief ${conversionType} Registration`,
+      content_category: 'Lead Generation',
+      value: value,
+      currency: 'INR',
+      status: 'completed',
+      ...additionalData
+    });
+
+    // Track custom conversion event
+    fbq('trackCustom', 'DIVJOTConversion', {
+      conversion_type: conversionType,
+      product_name: 'DIVJOT Pain Relief',
+      value: value,
+      currency: 'INR',
+      timestamp: new Date().toISOString(),
+      ...additionalData
+    });
+  }
+}
+
+// Page Visibility API for engagement tracking
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    // Page became hidden
+    if (typeof fbq !== 'undefined') {
+      fbq('trackCustom', 'PageHidden', {
+        content_name: 'DIVJOT Pain Relief Page Hidden',
+        time_on_page: Date.now() - performance.timing.navigationStart
+      });
+    }
+  } else {
+    // Page became visible
+    if (typeof fbq !== 'undefined') {
+      fbq('trackCustom', 'PageVisible', {
+        content_name: 'DIVJOT Pain Relief Page Visible'
+      });
+    }
+  }
+});
+
+// Export Meta Pixel functions
+window.trackLeadFormInteraction = trackLeadFormInteraction;
+window.trackMetaPixelConversion = trackMetaPixelConversion;
