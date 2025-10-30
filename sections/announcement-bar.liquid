@@ -7,10 +7,16 @@
       {%- if section.settings.text != blank -%}
         <span class="announcement-bar__text">{{ section.settings.text | escape }}</span>
       {%- endif -%}
-      {%- if section.settings.show_social -%}
-        <div class="announcement-bar__social">
-          <!-- Social icons can be added here -->
+      {%- if section.settings.show_timer -%}
+        <div class="announcement-timer">
+          <span class="timer-label">बचा समय:</span>
+          <span class="mini-timer" id="announcementTimer">02:47</span>
         </div>
+      {%- endif -%}
+      {%- if section.settings.show_cta -%}
+        <button class="announcement-cta" onclick="openOrderModal()">
+          {{ section.settings.cta_text | default: "ऑर्डर करें" }}
+        </button>
       {%- endif -%}
     </div>
   </div>
@@ -48,11 +54,70 @@
 
 .announcement-bar__text {
   font-size: 1rem;
+  flex: 1;
+}
+
+.announcement-timer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.2);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+.timer-label {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.mini-timer {
+  font-weight: bold;
+  color: #ffd700;
+  font-size: 1rem;
+}
+
+.announcement-cta {
+  background: #ffd700;
+  color: #333;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.announcement-cta:hover {
+  background: #ffed4e;
+  transform: scale(1.05);
 }
 
 @media screen and (max-width: 749px) {
+  .announcement-bar__message {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
   .announcement-bar__text {
     font-size: 0.9rem;
+  }
+  
+  .announcement-timer {
+    font-size: 0.8rem;
+    padding: 3px 10px;
+  }
+  
+  .mini-timer {
+    font-size: 0.9rem;
+  }
+  
+  .announcement-cta {
+    padding: 5px 14px;
+    font-size: 0.8rem;
   }
 }
 </style>
@@ -95,9 +160,21 @@
     },
     {
       "type": "checkbox",
-      "id": "show_social",
-      "default": false,
-      "label": "Show social media icons"
+      "id": "show_timer",
+      "default": true,
+      "label": "Show countdown timer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "default": true,
+      "label": "Show CTA button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "default": "ऑर्डर करें",
+      "label": "CTA button text"
     }
   ],
   "presets": [

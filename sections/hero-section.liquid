@@ -26,9 +26,20 @@
         </div>
         
         <div class="timer-box">
-          <div class="timer-label">समाप्त होने में बाकी समय:</div>
+          <div class="timer-label">⏰ समाप्त होने में बचा समय:</div>
           <div class="timer" id="mainTimer">
-            <span id="mainHours">{{ settings.timer_hours | default: 4 | prepend: '0' | slice: -2, 2 }}</span>:<span id="mainMinutes">{{ settings.timer_minutes | default: 44 | prepend: '0' | slice: -2, 2 }}</span>
+            <div class="timer-unit">
+              <span class="timer-number" id="mainHours">{{ settings.timer_hours | default: 2 | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="timer-text">घंटे</span>
+            </div>
+            <div class="timer-unit">
+              <span class="timer-number" id="mainMinutes">{{ settings.timer_minutes | default: 47 | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="timer-text">मिनट</span>
+            </div>
+            <div class="timer-unit">
+              <span class="timer-number" id="mainSeconds">00</span>
+              <span class="timer-text">सेकंड</span>
+            </div>
           </div>
         </div>
         

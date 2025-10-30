@@ -1,0 +1,351 @@
+{{ 'section-testimonials-carousel.css' | asset_url | stylesheet_tag }}
+
+<div class="testimonials-carousel-section color-{{ section.settings.color_scheme }}"
+     id="TestimonialsCarousel-{{ section.id }}"
+     data-section="{{ section.id }}">
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <div class="section-header">
+        <h2 class="section-heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+    
+    {%- if section.blocks.size > 0 -%}
+      <div class="carousel-container">
+        <div class="carousel-track">
+          {%- for block in section.blocks -%}
+            <div class="carousel-slide testimonial-slide" {{ block.shopify_attributes }}>
+              <div class="testimonial-card">
+                {%- if block.settings.rating > 0 -%}
+                  <div class="testimonial-rating">
+                    {%- for i in (1..5) -%}
+                      {%- if i <= block.settings.rating -%}
+                        <span class="star filled">⭐</span>
+                      {%- else -%}
+                        <span class="star">☆</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+                
+                {%- if block.settings.content != blank -%}
+                  <blockquote class="testimonial-content">
+                    "{{ block.settings.content }}"
+                  </blockquote>
+                {%- endif -%}
+                
+                <div class="testimonial-author">
+                  {%- if block.settings.author != blank -%}
+                    <cite class="author-name">{{ block.settings.author }}</cite>
+                  {%- endif -%}
+                  {%- if block.settings.location != blank -%}
+                    <span class="author-location">{{ block.settings.location }}</span>
+                  {%- endif -%}
+                </div>
+                
+                {%- if block.settings.image != blank -%}
+                  <div class="testimonial-image">
+                    <img src="{{ block.settings.image | img_url: '80x80' }}" alt="{{ block.settings.author }}" loading="lazy">
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+        
+        {%- if section.blocks.size > 1 -%}
+          <button class="carousel-btn carousel-btn-prev" aria-label="Previous testimonial">‹</button>
+          <button class="carousel-btn carousel-btn-next" aria-label="Next testimonial">›</button>
+          
+          <div class="carousel-indicators">
+            {%- for block in section.blocks -%}
+              <button class="carousel-indicator{% if forloop.first %} active{% endif %}" aria-label="Go to testimonial {{ forloop.index }}"></button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    
+    {%- if section.settings.show_cta -%}
+      <div class="testimonials-cta">
+        <button class="button button--primary" onclick="openOrderModal()">
+          {{ section.settings.cta_text | default: "अभी ऑर्डर करें - ₹3,150" }}
+        </button>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+.testimonials-carousel-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading {
+  font-size: 2.5rem;
+  color: white;
+  margin: 0;
+}
+
+.testimonial-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.testimonial-card {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  max-width: 600px;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.testimonial-rating {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #ffd700;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.star {
+  color: rgba(255,255,255,0.3);
+}
+
+.testimonial-content {
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #f0f0f0;
+}
+
+.testimonial-author {
+  margin-bottom: 20px;
+}
+
+.author-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffd700;
+  font-style: normal;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.author-location {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.testimonial-image {
+  margin-top: 20px;
+}
+
+.testimonial-image img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #ffd700;
+  object-fit: cover;
+}
+
+.testimonials-cta {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: 2rem;
+  }
+  
+  .testimonial-card {
+    padding: 25px;
+    margin: 0 10px;
+  }
+  
+  .testimonial-content {
+    font-size: 1rem;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .carousel-btn-prev {
+    left: 10px;
+  }
+  
+  .carousel-btn-next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-card {
+    padding: 20px;
+    margin: 0 5px;
+  }
+  
+  .testimonial-content {
+    font-size: 0.95rem;
+  }
+  
+  .testimonial-rating {
+    font-size: 1.2rem;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Testimonials Carousel",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "खुश ग्राहकों की राय",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2",
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "default": true,
+      "label": "Show call-to-action button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "default": "अभी ऑर्डर करें - ₹3,150",
+      "label": "CTA button text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "Rating"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "default": "Customer testimonial content",
+          "label": "Testimonial content"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "default": "Customer Name",
+          "label": "Author name"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "default": "City",
+          "label": "Location"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer photo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials Carousel",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "मेरे घुटने का दर्द 15 सालों से था। DIVJOT लेने के बाद सिर्फ 10 दिन में 80% आराम मिल गया।",
+            "author": "राजेश शर्मा",
+            "location": "दिल्ली"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "कमर दर्द की वजह से चलना-फिरना मुश्किल था। अब मैं बिल्कुल ठीक हूं। धन्यवाद DIVJOT!",
+            "author": "सुनीता देवी",
+            "location": "मुंबई"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "गर्दन और कंधे का दर्द गायब हो गया। 100% प्राकृतिक होने से कोई साइड इफेक्ट भी नहीं।",
+            "author": "अमित कुमार",
+            "location": "पुणे"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "content": "डॉक्टर की दवाइयों से कोई फायदा नहीं हुआ था। DIVJOT से 2 हफ्ते में ही चमत्कार हो गया।",
+            "author": "प्रिया गुप्ता",
+            "location": "कोलकाता"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

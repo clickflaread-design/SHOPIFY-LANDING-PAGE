@@ -59,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
   initABTesting();
   initWhatsAppIntegration();
   initializeFacebookPixel();
+  initializeAutoPopup();
+  initializeCarousel();
 
   // Track page load
   trackEvent("page_loaded", {
@@ -108,8 +110,8 @@ function updateTimers() {
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
     // Update all timer displays
-    updateTimerDisplay("mainTimer", hours, minutes);
-    updateTimerDisplay("finalTimer", hours, minutes);
+    updateTimerDisplay("mainTimer", hours, minutes, seconds);
+    updateTimerDisplay("finalTimer", hours, minutes, seconds);
     updateModalTimer(hours, minutes, seconds);
   } else {
     // Timer expired - reset to new time
@@ -117,14 +119,24 @@ function updateTimers() {
   }
 }
 
-function updateTimerDisplay(timerId, hours, minutes) {
+function updateTimerDisplay(timerId, hours, minutes, seconds = 0) {
   const timerElement = document.getElementById(timerId);
   if (timerElement) {
     const hoursSpan = timerElement.querySelector('[id$="Hours"]');
     const minutesSpan = timerElement.querySelector('[id$="Minutes"]');
+    const secondsSpan = timerElement.querySelector('[id$="Seconds"]');
 
     if (hoursSpan) hoursSpan.textContent = String(hours).padStart(2, "0");
     if (minutesSpan) minutesSpan.textContent = String(minutes).padStart(2, "0");
+    if (secondsSpan) secondsSpan.textContent = String(seconds).padStart(2, "0");
+  }
+
+  // Update announcement timer
+  const announcementTimer = document.getElementById("announcementTimer");
+  if (announcementTimer) {
+    announcementTimer.textContent = `${String(hours).padStart(2, "0")}:${
+      String(minutes).padStart(2, "0")
+    }`;
   }
 }
 
@@ -1352,6 +1364,189 @@ async function submitToWebhook(formData, webhookUrl) {
     debugError("Webhook submission error:", error);
     return false;
   }
+}
+
+// Auto Popup Functionality
+function initializeAutoPopup() {
+  let popupShown = false;
+  let scrollTriggered = false;
+  let timeTriggered = false;
+
+  // Check if popup was already shown in this session
+  if (sessionStorage.getItem("divjot_popup_shown")) {
+    return;
+  }
+
+  // Time-based trigger (30 seconds)
+  setTimeout(() => {
+    if (!popupShown) {
+      showAutoPopup("time_trigger");
+      timeTriggered = true;
+    }
+  }, 30000);
+
+  // Scroll-based trigger (50% scroll)
+  window.addEventListener("scroll", function () {
+    if (scrollTriggered || popupShown) return;
+
+    const scrollPercent =
+      (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+      100;
+    if (scrollPercent > 50) {
+      showAutoPopup("scroll_trigger");
+      scrollTriggered = true;
+    }
+  });
+
+  // Exit intent trigger (mouse leaves viewport)
+  document.addEventListener("mouseleave", function (e) {
+    if (popupShown || e.clientY > 0) return;
+
+    showAutoPopup("exit_intent");
+  });
+
+  // Mobile touch trigger (after 20 seconds on mobile)
+  if (window.innerWidth <= 768) {
+    setTimeout(() => {
+      if (!popupShown) {
+        showAutoPopup("mobile_time_trigger");
+      }
+    }, 20000);
+  }
+
+  function showAutoPopup(trigger) {
+    if (popupShown) return;
+
+    popupShown = true;
+    sessionStorage.setItem("divjot_popup_shown", "true");
+
+    // Add urgency animation
+    const modal = document.getElementById("orderModal");
+    if (modal) {
+      modal.classList.add("auto-popup");
+      openOrderModal();
+
+      // Track auto popup
+      trackEvent("auto_popup_shown", {
+        trigger: trigger,
+        time_on_page: Date.now() - performance.timing.navigationStart,
+      });
+
+      // Facebook Pixel
+      if (typeof fbq !== "undefined") {
+        fbq("track", "InitiateCheckout", {
+          content_name: "DIVJOT Pain Relief Auto Popup",
+          content_category: "Health",
+          value: 3150,
+          currency: "INR",
+        });
+      }
+    }
+  }
+}
+
+// Carousel Functionality
+function initializeCarousel() {
+  const carousels = document.querySelectorAll(".carousel-container");
+
+  carousels.forEach((carousel) => {
+    const track = carousel.querySelector(".carousel-track");
+    const slides = carousel.querySelectorAll(".carousel-slide");
+    const prevBtn = carousel.querySelector(".carousel-btn-prev");
+    const nextBtn = carousel.querySelector(".carousel-btn-next");
+    const indicators = carousel.querySelectorAll(".carousel-indicator");
+
+    if (!track || slides.length === 0) return;
+
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    // Auto-play functionality
+    let autoPlayInterval = setInterval(() => {
+      nextSlide();
+    }, 4000);
+
+    function updateCarousel() {
+      const translateX = -currentSlide * 100;
+      track.style.transform = `translateX(${translateX}%)`;
+
+      // Update indicators
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle("active", index === currentSlide);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    // Event listeners
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        nextSlide();
+        resetAutoPlay();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        prevSlide();
+        resetAutoPlay();
+      });
+    }
+
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener("click", () => {
+        currentSlide = index;
+        updateCarousel();
+        resetAutoPlay();
+      });
+    });
+
+    function resetAutoPlay() {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = setInterval(() => {
+        nextSlide();
+      }, 4000);
+    }
+
+    // Pause on hover
+    carousel.addEventListener("mouseenter", () => {
+      clearInterval(autoPlayInterval);
+    });
+
+    carousel.addEventListener("mouseleave", () => {
+      resetAutoPlay();
+    });
+
+    // Touch support for mobile
+    let startX = 0;
+    let endX = 0;
+
+    carousel.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener("touchend", (e) => {
+      endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+        resetAutoPlay();
+      }
+    });
+  });
 }
 
 // Export enhanced functions
