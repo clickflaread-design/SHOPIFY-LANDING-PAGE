@@ -54,10 +54,11 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeTimers();
   initializeModal();
   initializeFAQ();
-  initializeFormValidation();
+  initializeEnhancedFormValidation();
   trackUserBehavior();
   initABTesting();
   initWhatsAppIntegration();
+  initializeFacebookPixel();
 
   // Track page load
   trackEvent("page_loaded", {
@@ -68,16 +69,26 @@ document.addEventListener("DOMContentLoaded", function () {
   // Start timer updates
   setInterval(updateTimers, 1000);
 
-  // Track form interactions
+  // Track form interactions with enhanced tracking
   const formInputs = document.querySelectorAll(
     "#orderForm input, #orderForm textarea",
   );
   formInputs.forEach((input) => {
     input.addEventListener("focus", function () {
-      trackEvent("form_started", {
+      trackEvent("form_field_focused", {
         field: this.name,
         form_type: "order_form",
       });
+
+      // Facebook Pixel - Lead event when user starts filling form
+      if (typeof fbq !== "undefined") {
+        fbq("track", "Lead", {
+          content_name: "DIVJOT Pain Relief Form",
+          content_category: "Health",
+          value: 3150,
+          currency: "INR",
+        });
+      }
     }, { once: true });
   });
 });
@@ -183,56 +194,143 @@ function closeSuccessModal() {
 }
 
 // Form Handling
-function initializeFormValidation() {
+// Enhanced Form Validation
+function initializeEnhancedFormValidation() {
+  const form = document.getElementById("orderForm");
+  const submitBtn = form?.querySelector('button[type="submit"]');
   const inputs = document.querySelectorAll(
     "#orderForm input, #orderForm textarea",
   );
 
+  if (!form || !submitBtn) return;
+
+  // Initially disable submit button
+  submitBtn.disabled = true;
+  submitBtn.classList.remove("enabled");
+
   inputs.forEach((input) => {
     input.addEventListener("blur", validateField);
-    input.addEventListener("input", clearFieldError);
+    input.addEventListener("input", function () {
+      clearFieldError(this);
+      validateField({ target: this });
+      checkFormValidity();
+    });
+
+    // Real-time validation for better UX
+    input.addEventListener("keyup", function () {
+      if (this.value.length > 0) {
+        validateField({ target: this });
+        checkFormValidity();
+      }
+    });
   });
+
+  // Check form validity on load
+  checkFormValidity();
+}
+
+function checkFormValidity() {
+  const form = document.getElementById("orderForm");
+  const submitBtn = form?.querySelector('button[type="submit"]');
+  const inputs = form?.querySelectorAll("input[required], textarea[required]");
+
+  if (!form || !submitBtn || !inputs) return;
+
+  let allValid = true;
+  let allFilled = true;
+
+  inputs.forEach((input) => {
+    if (!input.value.trim()) {
+      allFilled = false;
+    }
+    if (input.classList.contains("invalid") || !input.value.trim()) {
+      allValid = false;
+    }
+  });
+
+  // Enable/disable submit button based on validation
+  if (allValid && allFilled) {
+    submitBtn.disabled = false;
+    submitBtn.classList.add("enabled");
+    submitBtn.textContent = "अभी ऑर्डर करें - ₹3,150";
+  } else {
+    submitBtn.disabled = true;
+    submitBtn.classList.remove("enabled");
+    if (!allFilled) {
+      submitBtn.textContent = "कृपया सभी फील्ड भरें";
+    } else {
+      submitBtn.textContent = "कृपया सही जानकारी दर्ज करें";
+    }
+  }
 }
 
 function validateField(event) {
   const field = event.target;
   const value = field.value.trim();
 
-  // Remove existing error styling
-  field.classList.remove("error");
+  // Remove existing styling
+  field.classList.remove("invalid", "valid", "error");
+  clearFieldError(field);
+
+  let isValid = true;
+  let errorMessage = "";
 
   // Validate based on field type
   switch (field.name) {
     case "name":
-      if (value.length < 2) {
-        showFieldError(field, "नाम कम से कम 2 अक्षर का होना चाहिए");
-        return false;
+      if (value.length === 0) {
+        errorMessage = "नाम आवश्यक है";
+        isValid = false;
+      } else if (value.length < 2) {
+        errorMessage = "नाम कम से कम 2 अक्षर का होना चाहिए";
+        isValid = false;
+      } else if (!/^[a-zA-Zअ-ह\s]+$/.test(value)) {
+        errorMessage = "कृपया केवल अक्षर का उपयोग करें";
+        isValid = false;
       }
       break;
 
     case "phone":
-      if (!/^[6-9]\d{9}$/.test(value)) {
-        showFieldError(field, "कृपया सही मोबाइल नंबर दर्ज करें");
-        return false;
+      if (value.length === 0) {
+        errorMessage = "मोबाइल नंबर आवश्यक है";
+        isValid = false;
+      } else if (!/^[6-9]\d{9}$/.test(value)) {
+        errorMessage = "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें";
+        isValid = false;
       }
       break;
 
     case "pincode":
-      if (!/^\d{6}$/.test(value)) {
-        showFieldError(field, "कृपया सही पिन कोड दर्ज करें");
-        return false;
+      if (value.length === 0) {
+        errorMessage = "पिन कोड आवश्यक है";
+        isValid = false;
+      } else if (!/^\d{6}$/.test(value)) {
+        errorMessage = "कृपया सही 6 अंकों का पिन कोड दर्ज करें";
+        isValid = false;
       }
       break;
 
     case "address":
-      if (value.length < 10) {
-        showFieldError(field, "कृपया पूरा पता दर्ज करें");
-        return false;
+      if (value.length === 0) {
+        errorMessage = "पता आवश्यक है";
+        isValid = false;
+      } else if (value.length < 10) {
+        errorMessage = "कृपया पूरा पता दर्ज करें (कम से कम 10 अक्षर)";
+        isValid = false;
       }
       break;
   }
 
-  return true;
+  // Apply validation styling and messages
+  if (isValid && value.length > 0) {
+    field.classList.add("valid");
+    showFieldSuccess(field);
+  } else if (!isValid) {
+    field.classList.add("invalid");
+    showFieldError(field, errorMessage);
+  }
+
+  return isValid;
 }
 
 function showFieldError(field, message) {
@@ -255,13 +353,35 @@ function showFieldError(field, message) {
   field.parentNode.appendChild(errorDiv);
 }
 
-function clearFieldError(event) {
-  const field = event.target;
-  field.classList.remove("error");
+function showFieldSuccess(field) {
+  // Remove existing messages
+  const existingMessage = field.parentNode.querySelector(
+    ".success-message, .error-message",
+  );
+  if (existingMessage) {
+    existingMessage.remove();
+  }
 
-  const errorMessage = field.parentNode.querySelector(".error-message");
-  if (errorMessage) {
-    errorMessage.remove();
+  // Add success message
+  const successDiv = document.createElement("div");
+  successDiv.className = "success-message";
+  successDiv.textContent = "सही है";
+
+  field.parentNode.appendChild(successDiv);
+}
+
+function clearFieldError(field) {
+  if (typeof field === "object" && field.target) {
+    field = field.target;
+  }
+
+  field.classList.remove("error", "invalid", "valid");
+
+  const existingMessage = field.parentNode.querySelector(
+    ".error-message, .success-message",
+  );
+  if (existingMessage) {
+    existingMessage.remove();
   }
 }
 
@@ -1045,14 +1165,32 @@ async function handleFormSubmission(event) {
       // Track successful conversion
       trackConversion("order_completed", 3150);
 
-      // Facebook Pixel Purchase Event
+      // Enhanced Facebook Pixel Purchase Event
       if (typeof fbq !== "undefined") {
         fbq("track", "Purchase", {
           value: 3150,
           currency: "INR",
           content_name: "DIVJOT Pain Relief",
           content_type: "product",
+          content_ids: ["divjot-pain-relief"],
+          num_items: 1,
+          predicted_ltv: 3150,
+          content_category: "Health",
         });
+
+        // Also track as CompleteRegistration for lead tracking
+        fbq("track", "CompleteRegistration", {
+          content_name: "DIVJOT Pain Relief Order",
+          value: 3150,
+          currency: "INR",
+        });
+      }
+
+      // Submit to additional webhook if configured
+      const webhookUrl = document.querySelector("[data-webhook-url]")?.dataset
+        .webhookUrl;
+      if (webhookUrl) {
+        submitToWebhook(orderData, webhookUrl);
       }
 
       // Google Analytics Purchase Event
@@ -1147,6 +1285,78 @@ setVH();
 window.addEventListener("resize", setVH);
 window.addEventListener("orientationchange", setVH);
 
+// Facebook Pixel Enhanced Integration
+function initializeFacebookPixel() {
+  // Track page view with enhanced data
+  if (typeof fbq !== "undefined") {
+    fbq("track", "ViewContent", {
+      content_name: "DIVJOT Pain Relief Landing Page",
+      content_category: "Health",
+      content_type: "product",
+      value: 3150,
+      currency: "INR",
+    });
+  }
+
+  // Track scroll depth for engagement
+  let scrollTracked = false;
+  window.addEventListener("scroll", function () {
+    const scrollPercent = Math.round(
+      (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+        100,
+    );
+
+    if (scrollPercent > 50 && !scrollTracked && typeof fbq !== "undefined") {
+      fbq("track", "ViewContent", {
+        content_name: "DIVJOT Pain Relief - 50% Scroll",
+        content_category: "Engagement",
+        value: 3150,
+        currency: "INR",
+      });
+      scrollTracked = true;
+    }
+  });
+}
+
+// Enhanced CRM Webhook Integration
+async function submitToWebhook(formData, webhookUrl) {
+  try {
+    const webhookData = {
+      name: formData.name,
+      phone: formData.phone,
+      pincode: formData.pincode,
+      address: formData.address,
+      product: "DIVJOT Pain Relief",
+      price: 3150,
+      source: "website",
+      timestamp: new Date().toISOString(),
+      user_agent: navigator.userAgent,
+      referrer: document.referrer,
+      utm_source: new URLSearchParams(window.location.search).get("utm_source"),
+      utm_medium: new URLSearchParams(window.location.search).get("utm_medium"),
+      utm_campaign: new URLSearchParams(window.location.search).get(
+        "utm_campaign",
+      ),
+    };
+
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(webhookData),
+    });
+
+    return response.ok;
+  } catch (error) {
+    debugError("Webhook submission error:", error);
+    return false;
+  }
+}
+
 // Export enhanced functions
 window.trackConversion = trackConversion;
 window.initMobileStickyCTA = initMobileStickyCTA;
+window.openOrderModal = openOrderModal;
+window.closeOrderModal = closeOrderModal;
+window.trackEvent = trackEvent;

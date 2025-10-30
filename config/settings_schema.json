@@ -346,6 +346,12 @@
         "id": "crm_domain",
         "label": "Domain",
         "default": "jointrelief.co.in"
+      },
+      {
+        "type": "text",
+        "id": "webhook_url",
+        "label": "Additional Webhook URL",
+        "info": "Optional: Additional webhook endpoint for form submissions"
       }
     ]
   },
