@@ -1555,3 +1555,425 @@ window.initMobileStickyCTA = initMobileStickyCTA;
 window.openOrderModal = openOrderModal;
 window.closeOrderModal = closeOrderModal;
 window.trackEvent = trackEvent;
+
+// Lead Form Functionality
+async function submitLeadForm(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const formData = new FormData(form);
+  const leadData = {
+    name: formData.get("name").trim(),
+    phone: formData.get("phone").trim(),
+    address: formData.get("address").trim(),
+    pain_type: formData.get("pain_type") || "general",
+  };
+
+  // Enhanced validation
+  let isValid = true;
+  const fields = ["name", "phone", "address"];
+
+  fields.forEach((fieldName) => {
+    const field = document.getElementById(`customer${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}`);
+    if (field && !validateLeadField(field)) {
+      isValid = false;
+    }
+  });
+
+  if (!isValid) {
+    showNotification("कृपया सभी फील्ड सही तरीके से भरें", "error");
+    return;
+  }
+
+  // Show loading state
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const btnText = submitBtn.querySelector('.btn-text');
+  const btnLoading = submitBtn.querySelector('.btn-loading');
+  
+  btnText.style.display = 'none';
+  btnLoading.style.display = 'inline';
+  submitBtn.disabled = true;
+
+  try {
+    // Track lead form submission
+    trackEvent("lead_form_submitted", {
+      ...leadData,
+      timestamp: new Date().toISOString(),
+      form_type: "lead_form",
+    });
+
+    // Facebook Pixel - Lead event
+    if (typeof fbq !== "undefined") {
+      fbq("track", "Lead", {
+        content_name: "DIVJOT Pain Relief Lead Form",
+        content_category: "Health",
+        value: 3150,
+        currency: "INR",
+      });
+    }
+
+    // Submit to CRM
+    const success = await submitLeadToCRM(leadData);
+
+    if (success) {
+      // Track successful lead
+      trackEvent("lead_generated", {
+        ...leadData,
+        timestamp: new Date().toISOString(),
+        source: "lead_form",
+      });
+
+      // Facebook Pixel - Purchase event for high-intent leads
+      if (typeof fbq !== "undefined") {
+        fbq("track", "Purchase", {
+          content_name: "DIVJOT Pain Relief",
+          content_type: "product",
+          value: 3150,
+          currency: "INR",
+          content_ids: ["divjot-pain-relief"],
+          num_items: 1,
+        });
+      }
+
+      // Show success message
+      showLeadFormSuccess();
+      
+      // Reset form
+      form.reset();
+      
+      // Clear validation states
+      form.querySelectorAll('.form-group input, .form-group textarea').forEach(field => {
+        field.classList.remove('valid', 'invalid', 'error');
+        const errorMsg = field.parentNode.querySelector('.error-message');
+        if (errorMsg) errorMsg.textContent = '';
+      });
+
+    } else {
+      throw new Error("Lead submission failed");
+    }
+  } catch (error) {
+    debugError("Lead form submission error:", error);
+    showNotification(
+      "फॉर्म सबमिट करने में समस्या हुई। कृपया दोबारा कोशिश करें।",
+      "error"
+    );
+
+    // Track failed lead
+    trackEvent("lead_form_failed", {
+      error: error.message,
+      timestamp: new Date().toISOString(),
+      form_data: leadData,
+    });
+  } finally {
+    // Reset button state
+    btnText.style.display = 'inline';
+    btnLoading.style.display = 'none';
+    submitBtn.disabled = false;
+  }
+}
+
+function validateLeadField(field) {
+  const value = field.value.trim();
+  const fieldName = field.name;
+  
+  // Clear previous validation
+  field.classList.remove('invalid', 'valid', 'error');
+  const errorSpan = document.getElementById(fieldName + 'Error');
+  if (errorSpan) errorSpan.textContent = '';
+
+  let isValid = true;
+  let errorMessage = "";
+
+  switch (fieldName) {
+    case "name":
+      if (value.length === 0) {
+        errorMessage = "नाम आवश्यक है";
+        isValid = false;
+      } else if (value.length < 2) {
+        errorMessage = "नाम कम से कम 2 अक्षर का होना चाहिए";
+        isValid = false;
+      } else if (!/^[a-zA-Zअ-ह\s]+$/.test(value)) {
+        errorMessage = "कृपया केवल अक्षर का उपयोग करें";
+        isValid = false;
+      }
+      break;
+
+    case "phone":
+      if (value.length === 0) {
+        errorMessage = "मोबाइल नंबर आवश्यक है";
+        isValid = false;
+      } else if (!/^[6-9]\d{9}$/.test(value)) {
+        errorMessage = "कृपया सही 10 अंकों का मोबाइल नंबर दर्ज करें";
+        isValid = false;
+      }
+      break;
+
+    case "address":
+      if (value.length === 0) {
+        errorMessage = "पता आवश्यक है";
+        isValid = false;
+      } else if (value.length < 10) {
+        errorMessage = "कृपया पूरा पता दर्ज करें (कम से कम 10 अक्षर)";
+        isValid = false;
+      }
+      break;
+  }
+
+  // Apply validation styling
+  if (isValid && value.length > 0) {
+    field.classList.add('valid');
+  } else if (!isValid) {
+    field.classList.add('invalid', 'error');
+    if (errorSpan) {
+      errorSpan.textContent = errorMessage;
+    }
+  }
+
+  return isValid;
+}
+
+function showLeadFormSuccess() {
+  // Create success overlay
+  const successOverlay = document.createElement('div');
+  successOverlay.className = 'lead-success-overlay';
+  successOverlay.innerHTML = `
+    <div class="lead-success-modal">
+      <div class="success-icon">✅</div>
+      <h3>ऑर्डर सफलतापूर्वक सबमिट हो गया!</h3>
+      <p>हमारी टीम जल्द ही आपसे संपर्क करेगी।</p>
+      <div class="success-details">
+        <div class="detail-item">
+          <span class="icon">📞</span>
+          <span>24 घंटे में कॉल</span>
+        </div>
+        <div class="detail-item">
+          <span class="icon">🚚</span>
+          <span>3-5 दिन में डिलीवरी</span>
+        </div>
+        <div class="detail-item">
+          <span class="icon">💰</span>
+          <span>कैश ऑन डिलीवरी</span>
+        </div>
+      </div>
+      <button onclick="closeLeadSuccess()" class="success-close-btn">बंद करें</button>
+    </div>
+  `;
+
+  // Add styles
+  successOverlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+  `;
+
+  document.body.appendChild(successOverlay);
+  document.body.style.overflow = 'hidden';
+
+  // Auto close after 5 seconds
+  setTimeout(() => {
+    closeLeadSuccess();
+  }, 5000);
+}
+
+function closeLeadSuccess() {
+  const overlay = document.querySelector('.lead-success-overlay');
+  if (overlay) {
+    overlay.remove();
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Initialize lead form timers
+function initializeLeadFormTimers() {
+  const formTimers = document.querySelectorAll('#formTimer, #leadFormTimer');
+  
+  formTimers.forEach(timer => {
+    const hoursSpan = timer.querySelector('[id$="Hours"]');
+    const minutesSpan = timer.querySelector('[id$="Minutes"]');
+    const secondsSpan = timer.querySelector('[id$="Seconds"]');
+    
+    if (hoursSpan && minutesSpan && secondsSpan) {
+      setInterval(() => {
+        const now = new Date().getTime();
+        const timeLeft = timerEndTime - now;
+        
+        if (timeLeft > 0) {
+          const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+          
+          hoursSpan.textContent = String(hours).padStart(2, '0');
+          minutesSpan.textContent = String(minutes).padStart(2, '0');
+          secondsSpan.textContent = String(seconds).padStart(2, '0');
+        }
+      }, 1000);
+    }
+  });
+}
+
+// Enhanced mobile lead form experience
+function initializeMobileLeadForm() {
+  if (window.innerWidth <= 768) {
+    const leadFormSection = document.querySelector('.lead-form-section');
+    if (leadFormSection) {
+      // Make form sticky on mobile for better visibility
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Form is visible
+            trackEvent('lead_form_viewed', {
+              device: 'mobile',
+              timestamp: new Date().toISOString()
+            });
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      observer.observe(leadFormSection);
+    }
+  }
+}
+
+// Initialize lead form functionality
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize lead form timers
+  initializeLeadFormTimers();
+  
+  // Initialize mobile lead form enhancements
+  initializeMobileLeadForm();
+  
+  // Add lead form validation
+  const leadForm = document.getElementById('leadForm');
+  if (leadForm) {
+    // Add real-time validation
+    const leadInputs = leadForm.querySelectorAll('input, textarea');
+    leadInputs.forEach(input => {
+      input.addEventListener('blur', function() {
+        validateLeadField(this);
+      });
+      
+      input.addEventListener('input', function() {
+        // Clear error state on input
+        this.classList.remove('invalid', 'error');
+        const errorSpan = document.getElementById(this.name + 'Error');
+        if (errorSpan) errorSpan.textContent = '';
+      });
+      
+      // Track field interactions
+      input.addEventListener('focus', function() {
+        trackEvent('lead_form_field_focused', {
+          field: this.name,
+          timestamp: new Date().toISOString()
+        });
+      }, { once: true });
+    });
+  }
+});
+
+// Export lead form functions
+window.submitLeadForm = submitLeadForm;
+window.closeLeadSuccess = closeLeadSuccess;
+window.validateLeadField = validateLeadField;
+
+// CSS for lead form success modal
+const leadFormStyles = document.createElement('style');
+leadFormStyles.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .lead-success-modal {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease;
+  }
+  
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .success-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+  
+  .lead-success-modal h3 {
+    color: #27ae60;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .lead-success-modal p {
+    color: #666;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+  }
+  
+  .success-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    color: #2c3e50;
+  }
+  
+  .detail-item .icon {
+    font-size: 1.2rem;
+  }
+  
+  .success-close-btn {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .success-close-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+  }
+  
+  @media (max-width: 480px) {
+    .lead-success-modal {
+      padding: 25px;
+      margin: 20px;
+    }
+    
+    .success-details {
+      gap: 10px;
+    }
+    
+    .detail-item {
+      font-size: 0.9rem;
+    }
+  }
+`;
+
+document.head.appendChild(leadFormStyles);

@@ -5,12 +5,14 @@
          data-section="{{ section.id }}">
   <div class="container">
     <div class="hero-content">
-      <h1 class="hero-title">{{ settings.product_name | default: 'जोड़ों के दर्द से पाएं स्थायी राहत' }}</h1>
-      <p class="hero-subtitle">{{ settings.product_description | default: "100% आयुर्वेदिक DIVJOT Pain Relief" }}</p>
-      <p class="hero-benefit">7 दिन में दर्द से मुक्ति</p>
+      <h1 class="hero-title">{{ section.settings.hero_title | default: 'जोड़ों के दर्द से पाएं स्थायी राहत' }}</h1>
+      <p class="hero-subtitle">{{ section.settings.hero_subtitle | default: "100% आयुर्वेदिक DIVJOT Pain Relief" }}</p>
+      <p class="hero-benefit">{{ section.settings.hero_benefit | default: "7 दिन में दर्द से मुक्ति" }}</p>
       
       <div class="product-image">
-        {% if settings.product_image %}
+        {% if section.settings.hero_product_image %}
+          <img src="{{ section.settings.hero_product_image | img_url: '400x400' }}" alt="{{ section.settings.hero_title }}" loading="lazy">
+        {% elsif settings.product_image %}
           <img src="{{ settings.product_image | img_url: '400x400' }}" alt="{{ settings.product_name }}" loading="lazy">
         {% else %}
           <img src="{{ 'product.png' | asset_url }}" alt="DIVJOT Pain Relief" loading="lazy">
@@ -20,9 +22,9 @@
       <div class="pricing-section">
         <div class="price-box">
           <div class="special-price-label">विशेष मूल्य:</div>
-          <div class="price">₹{{ settings.product_price | default: 3150 }}</div>
-          <div class="price-details">180 टैबलेट (3 महीने का कोर्स)</div>
-          <div class="discount">70% की छूट - आज ही!</div>
+          <div class="price">₹{{ section.settings.hero_price | default: 3150 }}</div>
+          <div class="price-details">{{ section.settings.price_description | default: "180 टैबलेट (3 महीने का कोर्स)" }}</div>
+          <div class="discount">{{ section.settings.discount_text | default: "70% की छूट - आज ही!" }}</div>
         </div>
         
         <div class="timer-box">
@@ -66,7 +68,7 @@
         </div>
       </div>
       
-      <button class="secondary-cta" onclick="openOrderModal()">🛒 अभी ऑर्डर करें - ₹{{ settings.product_price | default: 3150 }}</button>
+      <button class="secondary-cta" onclick="openOrderModal()">🛒 अभी ऑर्डर करें - ₹{{ section.settings.hero_price | default: 3150 }}</button>
     </div>
   </div>
 </section>

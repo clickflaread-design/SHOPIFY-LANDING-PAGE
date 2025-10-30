@@ -35,6 +35,23 @@
         "cta_text": "अभी ऑर्डर करें - ₹3,150"
       }
     },
+    "lead_form": {
+      "type": "lead-form-section",
+      "settings": {
+        "form_title": "अभी ऑर्डर करें - 70% छूट",
+        "form_subtitle": "सिर्फ 2 मिनट में ऑर्डर पूरा करें",
+        "show_timer": true,
+        "timer_hours": 2,
+        "timer_minutes": 47,
+        "original_price": 10500,
+        "discounted_price": 3150,
+        "package_info": "180 टैबलेट (3 महीने का कोर्स)",
+        "show_product_image": true,
+        "show_testimonial": true,
+        "testimonial_text": "मैंने DIVJOT ऑर्डर किया था और सिर्फ 7 दिन में मेरा घुटने का दर्द गायब हो गया। बहुत अच्छा प्रोडक्ट है!",
+        "testimonial_author": "राजेश शर्मा, दिल्ली"
+      }
+    },
     "benefits": {
       "type": "benefits-section",
       "blocks": {
@@ -271,6 +288,7 @@
     "announcement_bar",
     "hero",
     "problem_solution",
+    "lead_form",
     "benefits",
     "testimonials",
     "how_it_works",

@@ -1,0 +1,653 @@
+{{ 'section-lead-form.css' | asset_url | stylesheet_tag }}
+
+<section class="lead-form-section color-{{ section.settings.color_scheme }} gradient"
+         id="LeadForm-{{ section.id }}"
+         data-section="{{ section.id }}">
+  <div class="container">
+    <div class="lead-form-wrapper">
+      <div class="form-content">
+        <div class="form-header">
+          <h2 class="form-title">{{ section.settings.form_title | default: "अभी ऑर्डर करें - 70% छूट" }}</h2>
+          <p class="form-subtitle">{{ section.settings.form_subtitle | default: "सिर्फ 2 मिनट में ऑर्डर पूरा करें" }}</p>
+          
+          {% if section.settings.show_timer %}
+          <div class="form-timer">
+            <div class="timer-label">⏰ ऑफर समाप्त होने में:</div>
+            <div class="timer" id="formTimer">
+              <div class="timer-unit">
+                <span class="timer-number" id="formHours">{{ section.settings.timer_hours | default: 2 | prepend: '0' | slice: -2, 2 }}</span>
+                <span class="timer-text">घंटे</span>
+              </div>
+              <div class="timer-unit">
+                <span class="timer-number" id="formMinutes">{{ section.settings.timer_minutes | default: 47 | prepend: '0' | slice: -2, 2 }}</span>
+                <span class="timer-text">मिनट</span>
+              </div>
+              <div class="timer-unit">
+                <span class="timer-number" id="formSeconds">00</span>
+                <span class="timer-text">सेकंड</span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="lead-form-container">
+          <form class="lead-form" id="leadForm" onsubmit="submitLeadForm(event)">
+            <div class="form-group">
+              <label for="customerName">पूरा नाम *</label>
+              <input type="text" id="customerName" name="name" required 
+                     placeholder="अपना पूरा नाम लिखें" 
+                     pattern="[a-zA-Zअ-ह\s]+" 
+                     title="कृपया केवल अक्षर और स्पेस का उपयोग करें">
+              <span class="error-message" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="customerPhone">मोबाइल नंबर *</label>
+              <input type="tel" id="customerPhone" name="phone" required 
+                     placeholder="10 अंकों का मोबाइल नंबर" 
+                     pattern="[6-9][0-9]{9}" 
+                     maxlength="10"
+                     title="कृपया 10 अंकों का वैध मोबाइल नंबर डालें">
+              <span class="error-message" id="phoneError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="customerAddress">पूरा पता *</label>
+              <textarea id="customerAddress" name="address" required 
+                        placeholder="घर का पूरा पता, शहर, राज्य, पिन कोड" 
+                        rows="3"
+                        minlength="10"></textarea>
+              <span class="error-message" id="addressError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="painType">दर्द का प्रकार</label>
+              <select id="painType" name="pain_type">
+                <option value="">दर्द का प्रकार चुनें</option>
+                <option value="knee">घुटने का दर्द</option>
+                <option value="back">कमर दर्द</option>
+                <option value="neck">गर्दन का दर्द</option>
+                <option value="shoulder">कंधे का दर्द</option>
+                <option value="joint">जोड़ों का दर्द</option>
+                <option value="multiple">कई जगह दर्द</option>
+                <option value="other">अन्य</option>
+              </select>
+            </div>
+
+            <div class="pricing-info">
+              <div class="price-display">
+                <div class="original-price">₹{{ section.settings.original_price | default: 10500 }}</div>
+                <div class="discounted-price">₹{{ section.settings.discounted_price | default: 3150 }}</div>
+                <div class="savings">आपकी बचत: ₹{{ section.settings.original_price | default: 10500 | minus: section.settings.discounted_price | default: 3150 }}</div>
+              </div>
+              <div class="package-info">{{ section.settings.package_info | default: "180 टैबलेट (3 महीने का कोर्स)" }}</div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+              <span class="btn-text">🛒 अभी ऑर्डर करें - ₹{{ section.settings.discounted_price | default: 3150 }}</span>
+              <span class="btn-loading" style="display: none;">ऑर्डर प्रोसेस हो रहा है...</span>
+            </button>
+
+            <div class="form-guarantees">
+              <div class="guarantee-item">
+                <span class="guarantee-icon">✓</span>
+                <span>कैश ऑन डिलीवरी</span>
+              </div>
+              <div class="guarantee-item">
+                <span class="guarantee-icon">✓</span>
+                <span>फ्री होम डिलीवरी</span>
+              </div>
+              <div class="guarantee-item">
+                <span class="guarantee-icon">✓</span>
+                <span>100% मनी बैक गारंटी</span>
+              </div>
+            </div>
+
+            <div class="privacy-notice">
+              <small>🔒 आपकी जानकारी पूर्णतः सुरक्षित है। हम आपकी प्राइवेसी का सम्मान करते हैं।</small>
+            </div>
+          </form>
+
+          {% if section.settings.show_testimonial %}
+          <div class="form-testimonial">
+            <div class="testimonial-content">
+              <div class="stars">⭐⭐⭐⭐⭐</div>
+              <p>"{{ section.settings.testimonial_text | default: 'मैंने DIVJOT ऑर्डर किया था और सिर्फ 7 दिन में मेरा घुटने का दर्द गायब हो गया। बहुत अच्छा प्रोडक्ट है!' }}"</p>
+              <cite>- {{ section.settings.testimonial_author | default: "राजेश शर्मा, दिल्ली" }}</cite>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if section.settings.show_product_image %}
+      <div class="form-product-image">
+        {% if section.settings.product_image %}
+          <img src="{{ section.settings.product_image | img_url: '300x300' }}" alt="{{ section.settings.form_title }}" loading="lazy">
+        {% else %}
+          <img src="{{ 'product.png' | asset_url }}" alt="DIVJOT Pain Relief" loading="lazy">
+        {% endif %}
+        
+        <div class="product-highlights">
+          <div class="highlight-item">
+            <span class="highlight-icon">🌿</span>
+            <span>100% आयुर्वेदिक</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">⚡</span>
+            <span>7 दिन में राहत</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-icon">🏆</span>
+            <span>1 लाख+ खुश ग्राहक</span>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+.lead-form-section {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.lead-form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.lead-form-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+.form-content {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-subtitle {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.form-timer {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.timer-label {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.timer-unit {
+  text-align: center;
+}
+
+.timer-number {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.timer-text {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.lead-form-container {
+  max-width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #ff6b35;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+  min-height: 20px;
+}
+
+.pricing-info {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 25px 0;
+  text-align: center;
+}
+
+.price-display {
+  margin-bottom: 10px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.discounted-price {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.savings {
+  font-size: 1rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.package-info {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin: 25px 0;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+.form-guarantees {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.guarantee-icon {
+  color: #27ae60;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.privacy-notice {
+  text-align: center;
+  color: #7f8c8d;
+  margin-top: 15px;
+}
+
+.form-product-image {
+  text-align: center;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 20px;
+}
+
+.form-product-image img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.product-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.highlight-icon {
+  font-size: 1.2rem;
+}
+
+.form-testimonial {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 25px;
+  border-left: 4px solid #ff6b35;
+}
+
+.testimonial-content .stars {
+  color: #f39c12;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.testimonial-content p {
+  font-style: italic;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.testimonial-content cite {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .lead-form-section {
+    padding: 40px 0;
+  }
+  
+  .lead-form-wrapper {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .form-content {
+    padding: 25px;
+    border-radius: 15px;
+  }
+  
+  .form-title {
+    font-size: 1.8rem;
+  }
+  
+  .timer {
+    gap: 10px;
+  }
+  
+  .timer-number {
+    font-size: 1.3rem;
+  }
+  
+  .form-guarantees {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .form-product-image {
+    order: -1;
+    padding: 20px;
+  }
+  
+  .product-highlights {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .highlight-item {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-content {
+    padding: 20px;
+  }
+  
+  .form-title {
+    font-size: 1.6rem;
+  }
+  
+  .discounted-price {
+    font-size: 1.7rem;
+  }
+  
+  .submit-btn {
+    font-size: 1.1rem;
+    padding: 16px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Lead Form Section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "Accent 1"
+        },
+        {
+          "value": "accent-2", 
+          "label": "Accent 2"
+        },
+        {
+          "value": "background-1",
+          "label": "Background 1"
+        },
+        {
+          "value": "background-2",
+          "label": "Background 2"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Color scheme"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form Title",
+      "default": "अभी ऑर्डर करें - 70% छूट"
+    },
+    {
+      "type": "text",
+      "id": "form_subtitle",
+      "label": "Form Subtitle",
+      "default": "सिर्फ 2 मिनट में ऑर्डर पूरा करें"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timer",
+      "label": "Show countdown timer",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "timer_hours",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "label": "Timer hours",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "timer_minutes",
+      "min": 0,
+      "max": 59,
+      "step": 1,
+      "label": "Timer minutes",
+      "default": 47
+    },
+    {
+      "type": "number",
+      "id": "original_price",
+      "label": "Original Price",
+      "default": 10500
+    },
+    {
+      "type": "number",
+      "id": "discounted_price",
+      "label": "Discounted Price",
+      "default": 3150
+    },
+    {
+      "type": "text",
+      "id": "package_info",
+      "label": "Package Information",
+      "default": "180 टैबलेट (3 महीने का कोर्स)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_image",
+      "label": "Show product image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_testimonial",
+      "label": "Show testimonial",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_text",
+      "label": "Testimonial Text",
+      "default": "मैंने DIVJOT ऑर्डर किया था और सिर्फ 7 दिन में मेरा घुटने का दर्द गायब हो गया। बहुत अच्छा प्रोडक्ट है!"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_author",
+      "label": "Testimonial Author",
+      "default": "राजेश शर्मा, दिल्ली"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lead Form Section"
+    }
+  ]
+}
+{% endschema %}

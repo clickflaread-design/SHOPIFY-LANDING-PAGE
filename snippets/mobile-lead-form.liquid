@@ -1,0 +1,536 @@
+<!-- Mobile Sticky Lead Form for Maximum Conversion -->
+<div class="mobile-sticky-lead-form" id="mobileStickyForm" style="display: none;">
+  <div class="mobile-form-container">
+    <div class="mobile-form-header">
+      <div class="mobile-offer-badge">70% छूट</div>
+      <div class="mobile-timer" id="mobileTimer">
+        <span id="mobileHours">02</span>:<span id="mobileMinutes">47</span>:<span id="mobileSeconds">00</span>
+      </div>
+      <button class="mobile-form-close" onclick="closeMobileForm()">×</button>
+    </div>
+    
+    <form class="mobile-lead-form" id="mobileLead" onsubmit="submitMobileLeadForm(event)">
+      <div class="mobile-form-row">
+        <input type="text" name="name" placeholder="आपका नाम" required 
+               pattern="[a-zA-Zअ-ह\s]+" title="कृपया केवल अक्षर का उपयोग करें">
+        <input type="tel" name="phone" placeholder="मोबाइल नंबर" required 
+               pattern="[6-9][0-9]{9}" maxlength="10" title="10 अंकों का मोबाइल नंबर">
+      </div>
+      
+      <textarea name="address" placeholder="पूरा पता (शहर, राज्य, पिन कोड)" required 
+                rows="2" minlength="10"></textarea>
+      
+      <div class="mobile-price-display">
+        <span class="mobile-original-price">₹10,500</span>
+        <span class="mobile-discounted-price">₹3,150</span>
+        <span class="mobile-savings">₹7,350 बचत!</span>
+      </div>
+      
+      <button type="submit" class="mobile-submit-btn">
+        <span class="mobile-btn-text">🛒 अभी ऑर्डर करें</span>
+        <span class="mobile-btn-loading" style="display: none;">प्रोसेसिंग...</span>
+      </button>
+      
+      <div class="mobile-guarantees">
+        <span>✓ कैश ऑन डिलीवरी</span>
+        <span>✓ फ्री डिलीवरी</span>
+        <span>✓ मनी बैक गारंटी</span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+.mobile-sticky-lead-form {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.mobile-sticky-lead-form.show {
+  transform: translateY(0);
+}
+
+.mobile-form-container {
+  padding: 15px;
+  background: white;
+  margin: 2px;
+  border-radius: 15px 15px 0 0;
+}
+
+.mobile-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.mobile-offer-badge {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.mobile-timer {
+  background: #2c3e50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.mobile-form-close {
+  background: #95a5a6;
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.mobile-form-close:hover {
+  background: #7f8c8d;
+  transform: scale(1.1);
+}
+
+.mobile-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobile-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mobile-lead-form input,
+.mobile-lead-form textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px; /* Prevent zoom on iOS */
+  background: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.mobile-lead-form input:focus,
+.mobile-lead-form textarea:focus {
+  outline: none;
+  border-color: #ff6b35;
+  background: white;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+}
+
+.mobile-price-display {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.mobile-original-price {
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.mobile-discounted-price {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.mobile-savings {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mobile-submit-btn {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+}
+
+.mobile-submit-btn:active {
+  transform: translateY(0);
+}
+
+.mobile-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.mobile-submit-btn:hover::before {
+  left: 100%;
+}
+
+.mobile-guarantees {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #2c3e50;
+  text-align: center;
+  gap: 5px;
+}
+
+.mobile-guarantees span {
+  flex: 1;
+  padding: 5px;
+  background: #f8f9fa;
+  border-radius: 5px;
+  border: 1px solid #e9ecef;
+}
+
+/* Animation for form appearance */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.mobile-sticky-lead-form.animate {
+  animation: slideUp 0.5s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 360px) {
+  .mobile-form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .mobile-price-display {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .mobile-guarantees {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .mobile-sticky-lead-form {
+    background: #000;
+    color: #fff;
+  }
+  
+  .mobile-form-container {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-sticky-lead-form,
+  .mobile-offer-badge,
+  .mobile-submit-btn {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Loading state */
+.mobile-submit-btn.loading {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.mobile-submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Only show on mobile devices */
+@media (min-width: 769px) {
+  .mobile-sticky-lead-form {
+    display: none !important;
+  }
+}
+</style>
+
+<script>
+// Mobile Lead Form Functionality
+let mobileFormVisible = false;
+let mobileFormTimer;
+
+// Initialize mobile form
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.innerWidth <= 768) {
+    initializeMobileLeadForm();
+  }
+});
+
+function initializeMobileLeadForm() {
+  const mobileForm = document.getElementById('mobileStickyForm');
+  if (!mobileForm) return;
+
+  // Show form after 10 seconds or 30% scroll
+  let showTimer = setTimeout(showMobileForm, 10000);
+  let scrollShown = false;
+
+  window.addEventListener('scroll', function() {
+    if (scrollShown) return;
+    
+    const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    if (scrollPercent > 30) {
+      showMobileForm();
+      scrollShown = true;
+      clearTimeout(showTimer);
+    }
+  });
+
+  // Update mobile timer
+  updateMobileTimer();
+  mobileFormTimer = setInterval(updateMobileTimer, 1000);
+}
+
+function showMobileForm() {
+  if (mobileFormVisible) return;
+  
+  const mobileForm = document.getElementById('mobileStickyForm');
+  if (mobileForm) {
+    mobileForm.style.display = 'block';
+    setTimeout(() => {
+      mobileForm.classList.add('show', 'animate');
+      mobileFormVisible = true;
+    }, 100);
+
+    // Track mobile form show
+    if (typeof trackEvent === 'function') {
+      trackEvent('mobile_form_shown', {
+        device: 'mobile',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // Facebook Pixel
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'ViewContent', {
+        content_name: 'Mobile Lead Form',
+        content_category: 'Form',
+        value: 3150,
+        currency: 'INR'
+      });
+    }
+  }
+}
+
+function closeMobileForm() {
+  const mobileForm = document.getElementById('mobileStickyForm');
+  if (mobileForm) {
+    mobileForm.classList.remove('show');
+    setTimeout(() => {
+      mobileForm.style.display = 'none';
+      mobileFormVisible = false;
+    }, 300);
+
+    // Track mobile form close
+    if (typeof trackEvent === 'function') {
+      trackEvent('mobile_form_closed', {
+        device: 'mobile',
+        timestamp: new Date().toISOString()
+      });
+    }
+  }
+}
+
+function updateMobileTimer() {
+  const now = new Date().getTime();
+  const timeLeft = timerEndTime - now;
+
+  if (timeLeft > 0) {
+    const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+    const hoursSpan = document.getElementById('mobileHours');
+    const minutesSpan = document.getElementById('mobileMinutes');
+    const secondsSpan = document.getElementById('mobileSeconds');
+
+    if (hoursSpan) hoursSpan.textContent = String(hours).padStart(2, '0');
+    if (minutesSpan) minutesSpan.textContent = String(minutes).padStart(2, '0');
+    if (secondsSpan) secondsSpan.textContent = String(seconds).padStart(2, '0');
+  }
+}
+
+async function submitMobileLeadForm(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const formData = new FormData(form);
+  const leadData = {
+    name: formData.get('name').trim(),
+    phone: formData.get('phone').trim(),
+    address: formData.get('address').trim(),
+    source: 'mobile_sticky_form'
+  };
+
+  // Basic validation
+  if (!leadData.name || !leadData.phone || !leadData.address) {
+    alert('कृपया सभी फील्ड भरें');
+    return;
+  }
+
+  if (!/^[6-9]\d{9}$/.test(leadData.phone)) {
+    alert('कृपया सही मोबाइल नंबर दर्ज करें');
+    return;
+  }
+
+  // Show loading state
+  const submitBtn = form.querySelector('.mobile-submit-btn');
+  const btnText = submitBtn.querySelector('.mobile-btn-text');
+  const btnLoading = submitBtn.querySelector('.mobile-btn-loading');
+  
+  btnText.style.display = 'none';
+  btnLoading.style.display = 'inline';
+  submitBtn.classList.add('loading');
+  submitBtn.disabled = true;
+
+  try {
+    // Track mobile form submission
+    if (typeof trackEvent === 'function') {
+      trackEvent('mobile_form_submitted', {
+        ...leadData,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // Facebook Pixel
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Lead', {
+        content_name: 'Mobile Lead Form Submission',
+        content_category: 'Form',
+        value: 3150,
+        currency: 'INR'
+      });
+    }
+
+    // Submit to CRM
+    const success = await submitLeadToCRM(leadData);
+
+    if (success) {
+      // Track successful conversion
+      if (typeof trackEvent === 'function') {
+        trackEvent('mobile_conversion', {
+          ...leadData,
+          timestamp: new Date().toISOString(),
+          value: 3150
+        });
+      }
+
+      // Facebook Pixel Purchase
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Purchase', {
+          content_name: 'DIVJOT Pain Relief Mobile',
+          value: 3150,
+          currency: 'INR'
+        });
+      }
+
+      // Show success message
+      alert('🎉 ऑर्डर सफल! हमारी टीम जल्द ही आपसे संपर्क करेगी।');
+      
+      // Reset form and close
+      form.reset();
+      closeMobileForm();
+
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch (error) {
+    console.error('Mobile form error:', error);
+    alert('कुछ गलत हुआ। कृपया दोबारा कोशिश करें।');
+  } finally {
+    // Reset button state
+    btnText.style.display = 'inline';
+    btnLoading.style.display = 'none';
+    submitBtn.classList.remove('loading');
+    submitBtn.disabled = false;
+  }
+}
+
+// Export functions
+window.showMobileForm = showMobileForm;
+window.closeMobileForm = closeMobileForm;
+window.submitMobileLeadForm = submitMobileLeadForm;
+</script>
